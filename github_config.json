@@ -1,0 +1,21 @@
+{
+  "github_repo": "Afrah-create/agricultural-advisory-system",
+  "branch": "main",
+  "token": null,
+  "models": {
+    "cropping_planner": "cropping_planner.pkl",
+    "integrated_advisor": "integrated_advisor.pkl",
+    "rule_engine": "rule_engine.pkl",
+    "uncertainty_calibrator": "uncertainty_calibrator.pkl"
+  },
+  "cache_settings": {
+    "enable_cache": true,
+    "max_cache_size_mb": 500,
+    "cache_expiry_hours": 24
+  },
+  "fallback_settings": {
+    "use_local_models": true,
+    "local_model_path": "./models/",
+    "offline_mode": false
+  }
+}
