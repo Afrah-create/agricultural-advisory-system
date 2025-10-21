@@ -340,40 +340,40 @@ st.markdown("""
     current_time=datetime.now().strftime("%I:%M %p")
 ), unsafe_allow_html=True)
 
-# Working Carousel Component
+# Compact Carousel Component
 def create_carousel():
-    """Create a working carousel using Streamlit tabs"""
+    """Create a compact carousel with smaller images"""
     
     # Carousel data
     carousel_data = [
         {
             "image": "images/maize.jpeg",
             "title": "Maize Cultivation",
-            "description": "High-yield maize varieties optimized for Ugandan soil conditions and climate patterns.",
+            "description": "High-yield maize varieties optimized for Ugandan soil conditions.",
             "caption": "Essential staple crop for food security"
         },
         {
             "image": "images/carrot.jpeg", 
             "title": "Carrot Farming",
-            "description": "Nutrient-rich carrot cultivation techniques for improved soil health and crop rotation.",
+            "description": "Nutrient-rich carrot cultivation techniques for soil health.",
             "caption": "High-value crop for nutrition and income"
         },
         {
             "image": "images/green-paper (1).jpeg",
             "title": "Sustainable Agriculture",
-            "description": "Eco-friendly farming practices that promote soil conservation and environmental sustainability.",
+            "description": "Eco-friendly farming practices for environmental sustainability.",
             "caption": "Protecting our environment for future generations"
         },
         {
             "image": "images/red-paper (2).jpeg",
             "title": "Crop Research",
-            "description": "Advanced agricultural research and development for improved crop varieties and farming methods.",
+            "description": "Advanced agricultural research for improved crop varieties.",
             "caption": "Innovation driving agricultural progress"
         },
         {
             "image": "images/red-paper (3).jpeg",
             "title": "Farm Technology",
-            "description": "Modern farming technologies and tools to increase productivity and efficiency.",
+            "description": "Modern farming technologies for increased productivity.",
             "caption": "Technology empowering smallholder farmers"
         }
     ]
@@ -389,49 +389,50 @@ def create_carousel():
     # Get current slide
     current_slide = carousel_data[st.session_state.carousel_index]
     
-    # Create carousel section
+    # Create compact carousel section
     st.markdown("### Agricultural Showcase")
     
-    # Create columns for image and content
-    col1, col2 = st.columns([2, 1])
+    # Create a single row with image and content
+    col1, col2 = st.columns([3, 2])
     
     with col1:
-        # Display image
+        # Display smaller image
         st.image(
             current_slide["image"], 
-            use_container_width=True,
+            width=300,  # Fixed width for smaller images
             caption=current_slide["caption"]
         )
     
     with col2:
-        # Display content in a styled card
+        # Display content in a compact card
         st.markdown(f"""
-        <div style="padding: 1.5rem; background: linear-gradient(135deg, #f8f9fa, #e9ecef); 
-                    border-radius: 10px; height: 100%; border-left: 4px solid #4CAF50; 
+        <div style="padding: 1rem; background: linear-gradient(135deg, #f8f9fa, #e9ecef); 
+                    border-radius: 8px; border-left: 4px solid #4CAF50; 
                     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
-            <h4 style="color: #1e3c72; margin-bottom: 1rem; font-weight: 600; font-size: 1.1rem;">
+            <h4 style="color: #1e3c72; margin-bottom: 0.8rem; font-weight: 600; font-size: 1rem;">
                 {current_slide['title']}
             </h4>
-            <p style="color: #495057; line-height: 1.5; margin-bottom: 1rem; font-size: 0.9rem;">
+            <p style="color: #495057; line-height: 1.4; margin-bottom: 0.8rem; font-size: 0.85rem;">
                 {current_slide['description']}
             </p>
-            <p style="color: #6c757d; font-style: italic; font-size: 0.8rem; margin: 0;">
+            <p style="color: #6c757d; font-style: italic; font-size: 0.75rem; margin: 0;">
                 {current_slide['caption']}
             </p>
         </div>
         """, unsafe_allow_html=True)
     
-    # Navigation dots
-    cols = st.columns(len(carousel_data))
-    for i, col in enumerate(cols):
+    # Better navigation buttons
+    st.markdown("**Navigate:**")
+    nav_cols = st.columns(len(carousel_data))
+    for i, col in enumerate(nav_cols):
         with col:
-            if st.button(f"•", key=f"dot_{i}", help=f"Go to {carousel_data[i]['title']}"):
+            if st.button(f"{i+1}", key=f"nav_{i}", help=f"Go to {carousel_data[i]['title']}"):
                 st.session_state.carousel_index = i
                 st.rerun()
     
-    # Auto-advance timer (this will cause a rerun every 4 seconds)
+    # Auto-advance timer (this will cause a rerun every 5 seconds)
     import time
-    time.sleep(4)
+    time.sleep(5)
     st.session_state.carousel_index += 1
     st.rerun()
     
@@ -439,6 +440,9 @@ def create_carousel():
 
 # Display Carousel
 create_carousel()
+
+# Add spacing
+st.markdown("---")
 
 # Initialize the advisor with GitHub models
 @st.cache_resource
@@ -605,9 +609,10 @@ maximize_yield = st.sidebar.checkbox("Maximize Yield", True)
 minimize_cost = st.sidebar.checkbox("Minimize Cost", True)
 maximize_profit = st.sidebar.checkbox("Maximize Profit", True)
 
-# Carousel moved to header - no longer needed in main content
+# Main Content Section
+st.markdown("### Soil Analysis & Recommendations")
 
-# Main content area
+# Analysis button
 if st.button("Analyze Soil & Generate Recommendations", type="primary"):
     
     # Prepare soil data
