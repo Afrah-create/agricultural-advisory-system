@@ -25,7 +25,7 @@ except ImportError:
 # Custom CSS for professional styling
 st.markdown("""
 <style>
-    /* Fixed Header */
+    /* Fixed Header - Compact */
     .fixed-header {
         position: fixed;
         top: 0;
@@ -33,8 +33,8 @@ st.markdown("""
         right: 0;
         z-index: 1000;
         background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        padding: 1.5rem 2rem;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        padding: 1rem 1.5rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
@@ -49,31 +49,40 @@ st.markdown("""
     .header-title {
         color: white;
         margin: 0;
-        font-size: 1.8rem;
-        font-weight: 300;
-        letter-spacing: 1px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        font-size: 1.4rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
     }
     
     .header-subtitle {
         color: #e8f4fd;
-        margin: 0.3rem 0 0 0;
-        font-size: 0.9rem;
+        margin: 0.2rem 0 0 0;
+        font-size: 0.8rem;
         font-weight: 300;
         opacity: 0.9;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 300px;
     }
     
     .header-date {
         color: #e8f4fd;
-        font-size: 0.85rem;
+        font-size: 0.75rem;
         font-weight: 300;
         opacity: 0.8;
         text-align: right;
+        white-space: nowrap;
     }
     
-    /* Main content spacing */
+    /* Main content spacing - Reduced */
     .main .block-container {
-        padding-top: 8rem !important;
+        padding-top: 6rem !important;
         padding-bottom: 2rem;
         max-width: 1200px;
     }
@@ -235,32 +244,73 @@ st.markdown("""
         background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
     }
     
-    /* Sidebar improvements */
+    /* Sidebar improvements - Compact */
     .sidebar .sidebar-content {
         background: linear-gradient(180deg, #f8f9fa, #e9ecef);
-        padding-top: 8rem;
+        padding-top: 6rem;
     }
     
     .sidebar .sidebar-content .block-container {
-        padding-top: 1rem;
+        padding-top: 0.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
     
-    /* Footer */
+    /* Sidebar section styling */
+    .sidebar .stMarkdown h3 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+        color: #495057;
+    }
+    
+    .sidebar .stSlider {
+        margin-bottom: 0.5rem;
+    }
+    
+    .sidebar .stSelectbox {
+        margin-bottom: 0.5rem;
+    }
+    
+    .sidebar .stCheckbox {
+        margin-bottom: 0.3rem;
+    }
+    
+    /* Footer - Fixed and Compact */
     .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
         background: linear-gradient(135deg, #343a40 0%, #495057 100%);
         color: white;
-        padding: 2rem;
+        padding: 0.8rem 1rem;
         text-align: center;
-        border-radius: 12px;
-        margin-top: 3rem;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 1000;
     }
     
     .footer h3 {
-        font-weight: 300;
-        letter-spacing: 1px;
-        margin-bottom: 0.5rem;
+        font-weight: 400;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.2rem;
+    }
+    
+    .footer p {
+        font-size: 0.75rem;
+        margin: 0.2rem 0;
+        opacity: 0.8;
+    }
+    
+    .footer div {
+        font-size: 0.7rem;
+        margin-top: 0.3rem;
+    }
+    
+    /* Add bottom padding to main content to account for fixed footer */
+    .main .block-container {
+        padding-bottom: 6rem !important;
     }
     
     /* Responsive design */
@@ -268,18 +318,26 @@ st.markdown("""
         .header-content {
             flex-direction: column;
             text-align: center;
+            gap: 0.5rem;
         }
         
         .header-title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
+            max-width: 100%;
+        }
+        
+        .header-subtitle {
+            font-size: 0.75rem;
+            max-width: 100%;
         }
         
         .main .block-container {
-            padding-top: 10rem !important;
+            padding-top: 8rem !important;
+            padding-bottom: 8rem !important;
         }
         
         .sidebar .sidebar-content {
-            padding-top: 10rem;
+            padding-top: 8rem;
         }
         
         .metric-card {
@@ -289,6 +347,18 @@ st.markdown("""
         
         .metric-value {
             font-size: 1.8rem;
+        }
+        
+        .footer {
+            padding: 0.6rem 0.8rem;
+        }
+        
+        .footer h3 {
+            font-size: 0.8rem;
+        }
+        
+        .footer p {
+            font-size: 0.7rem;
         }
     }
     
@@ -394,9 +464,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Carousel Component using Streamlit native elements
+# Compact Carousel Component
 def create_carousel():
-    """Create a carousel using Streamlit native components"""
+    """Create a compact carousel using Streamlit native components"""
     
     # Carousel data
     carousel_data = [
@@ -432,28 +502,61 @@ def create_carousel():
         }
     ]
     
-    # Create tabs for carousel slides
-    tab_names = [f"Slide {i+1}" for i in range(len(carousel_data))]
-    tabs = st.tabs(tab_names)
+    # Initialize session state for carousel
+    if 'carousel_index' not in st.session_state:
+        st.session_state.carousel_index = 0
     
-    for i, (tab, slide) in enumerate(zip(tabs, carousel_data)):
-        with tab:
-            # Create two columns for image and content
-            col1, col2 = st.columns([2, 1])
-            
-            with col1:
-                # Display image
-                st.image(slide["image"], use_column_width=True, caption=slide["caption"])
-            
-            with col2:
-                # Display content
-                st.markdown(f"""
-                <div style="padding: 2rem; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 10px; height: 100%;">
-                    <h3 style="color: #1e3c72; margin-bottom: 1rem; font-weight: 600;">{slide['title']}</h3>
-                    <p style="color: #495057; line-height: 1.6; margin-bottom: 1rem;">{slide['description']}</p>
-                    <p style="color: #6c757d; font-style: italic; font-size: 0.9rem;">{slide['caption']}</p>
-                </div>
-                """, unsafe_allow_html=True)
+    # Auto-advance carousel
+    if st.session_state.carousel_index >= len(carousel_data):
+        st.session_state.carousel_index = 0
+    
+    # Get current slide
+    current_slide = carousel_data[st.session_state.carousel_index]
+    
+    # Create compact carousel display
+    st.markdown("### Agricultural Showcase")
+    
+    # Create columns for image and content
+    col1, col2 = st.columns([3, 2])
+    
+    with col1:
+        # Display image with caption
+        st.image(
+            current_slide["image"], 
+            use_container_width=True, 
+            caption=current_slide["caption"]
+        )
+    
+    with col2:
+        # Display content in a compact card
+        st.markdown(f"""
+        <div style="padding: 1.5rem; background: linear-gradient(135deg, #f8f9fa, #e9ecef); 
+                    border-radius: 10px; height: 100%; border-left: 4px solid #4CAF50;">
+            <h4 style="color: #1e3c72; margin-bottom: 1rem; font-weight: 600; font-size: 1.1rem;">
+                {current_slide['title']}
+            </h4>
+            <p style="color: #495057; line-height: 1.5; margin-bottom: 1rem; font-size: 0.9rem;">
+                {current_slide['description']}
+            </p>
+            <p style="color: #6c757d; font-style: italic; font-size: 0.8rem; margin: 0;">
+                {current_slide['caption']}
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Navigation dots
+    cols = st.columns(len(carousel_data))
+    for i, col in enumerate(cols):
+        with col:
+            if st.button(f"•", key=f"dot_{i}", help=f"Go to {carousel_data[i]['title']}"):
+                st.session_state.carousel_index = i
+                st.rerun()
+    
+    # Auto-advance timer (this will cause a rerun every 4 seconds)
+    import time
+    time.sleep(4)
+    st.session_state.carousel_index += 1
+    st.rerun()
     
     return True
 
