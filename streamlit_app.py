@@ -156,6 +156,38 @@ st.markdown("""
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
         background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
     }
+    
+    /* Image styling */
+    .stImage > img {
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .stImage > img:hover {
+        transform: scale(1.02);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Enhanced info boxes */
+    .stAlert {
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Better section headers */
+    h2 {
+        color: #1e3c72;
+        border-bottom: 3px solid #4CAF50;
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    h3 {
+        color: #2a5298;
+        margin-bottom: 1rem;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -262,6 +294,70 @@ st.markdown("""
 ), unsafe_allow_html=True)
 
 # Add spacing
+st.markdown("---")
+
+# Agricultural Showcase Section with Images
+st.markdown("## 🌾 Agricultural Showcase")
+
+# Create a beautiful image gallery
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.markdown("### 🌽 Maize Cultivation")
+    st.image("images/maize.jpeg", use_container_width=True, caption="High-yield maize varieties for Uganda")
+    st.info("""
+    **Key Benefits:**
+    - High nutritional value
+    - Drought resistant varieties
+    - Essential staple crop
+    """)
+
+with col2:
+    st.markdown("### 🥕 Carrot Farming")
+    st.image("images/carrot.jpeg", use_container_width=True, caption="Nutrient-rich carrot cultivation")
+    st.info("""
+    **Key Benefits:**
+    - Rich in vitamins
+    - High market value
+    - Good for crop rotation
+    """)
+
+with col3:
+    st.markdown("### 🌱 Sustainable Agriculture")
+    st.image("images/green-paper (1).jpeg", use_container_width=True, caption="Eco-friendly farming practices")
+    st.info("""
+    **Key Benefits:**
+    - Environmental protection
+    - Soil conservation
+    - Long-term sustainability
+    """)
+
+# Research and Technology Section
+st.markdown("---")
+st.markdown("## 🔬 Research & Technology")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("### 📊 Agricultural Research")
+    st.image("images/red-paper (2).jpeg", use_container_width=True, caption="Advanced agricultural research")
+    st.success("""
+    **Research Focus:**
+    - Crop variety development
+    - Soil improvement techniques
+    - Climate adaptation strategies
+    """)
+
+with col2:
+    st.markdown("### 🚜 Farm Technology")
+    st.image("images/red-paper (3).jpeg", use_container_width=True, caption="Modern farming technologies")
+    st.success("""
+    **Technology Benefits:**
+    - Increased productivity
+    - Efficient resource use
+    - Precision agriculture
+    """)
+
 st.markdown("---")
 
 # Initialize the advisor with GitHub models
@@ -649,19 +745,24 @@ if st.button("🔍 Analyze Soil & Generate Recommendations", type="primary", use
             st.error(f"Analysis failed: {str(e)}")
             st.write("Please check your inputs and try again.")
 
-# System Information Panel with better organization
+# System Information Panel with visual enhancements
 st.markdown("---")
 st.markdown("## ℹ️ System Information")
 
 # Create tabs for better organization
-tab1, tab2, tab3 = st.tabs(["📊 Status", "⚙️ Features", "📈 Statistics"])
+tab1, tab2, tab3, tab4 = st.tabs(["📊 Status", "⚙️ Features", "📈 Statistics", "🖼️ Gallery"])
 
 with tab1:
     st.markdown("### System Status")
-    st.success("✅ All models loaded successfully")
-    st.success("✅ System initialized")
-    st.success("✅ Models loaded")
-    st.info("ℹ️ Ready for analysis")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.success("✅ All models loaded successfully")
+        st.success("✅ System initialized")
+    
+    with col2:
+        st.success("✅ Models loaded")
+        st.info("ℹ️ Ready for analysis")
 
 with tab2:
     st.markdown("### Available Features")
@@ -686,6 +787,31 @@ with tab3:
     
     with col3:
         st.metric("Optimization Goals", f"{len(objectives)}", help="Yield, Cost, Profit optimization")
+
+with tab4:
+    st.markdown("### Image Gallery")
+    st.markdown("**Agricultural Practices Showcase:**")
+    
+    # Create image grid
+    img_col1, img_col2, img_col3 = st.columns(3)
+    
+    with img_col1:
+        st.image("images/maize.jpeg", caption="Maize Cultivation", use_container_width=True)
+        st.image("images/carrot.jpeg", caption="Carrot Farming", use_container_width=True)
+    
+    with img_col2:
+        st.image("images/green-paper (1).jpeg", caption="Sustainable Agriculture", use_container_width=True)
+        st.image("images/red-paper (2).jpeg", caption="Agricultural Research", use_container_width=True)
+    
+    with img_col3:
+        st.image("images/red-paper (3).jpeg", caption="Farm Technology", use_container_width=True)
+        st.markdown("""
+        <div style="padding: 1rem; background: linear-gradient(135deg, #f8f9fa, #e9ecef); 
+                    border-radius: 8px; text-align: center; margin-top: 1rem;">
+            <h4 style="color: #1e3c72; margin: 0;">More Images Coming Soon!</h4>
+            <p style="color: #6c757d; margin: 0.5rem 0 0 0;">Additional agricultural content will be added regularly.</p>
+        </div>
+        """, unsafe_allow_html=True)
 
 # Professional Footer
 st.markdown("""
