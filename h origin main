@@ -1,0 +1,305 @@
+[1mdiff --git a/streamlit_app.py b/streamlit_app.py[m
+[1mindex ef9066d..429d700 100644[m
+[1m--- a/streamlit_app.py[m
+[1m+++ b/streamlit_app.py[m
+[36m@@ -26,84 +26,110 @@[m [mexcept ImportError:[m
+ st.markdown("""[m
+ <style>[m
+     .main-header {[m
+[31m-        background: linear-gradient(90deg, #2E8B57, #32CD32);[m
+[31m-        padding: 2rem;[m
+[31m-        border-radius: 10px;[m
+[32m+[m[32m        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);[m
+[32m+[m[32m        padding: 3rem 2rem;[m
+[32m+[m[32m        border-radius: 12px;[m
+         text-align: center;[m
+         margin-bottom: 2rem;[m
+[31m-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        border: 1px solid rgba(255, 255, 255, 0.1);[m
+     }[m
+     [m
+     .main-header h1 {[m
+         color: white;[m
+         margin: 0;[m
+[31m-        font-size: 2.5rem;[m
+[31m-        font-weight: 700;[m
+[32m+[m[32m        font-size: 2.8rem;[m
+[32m+[m[32m        font-weight: 300;[m
+[32m+[m[32m        letter-spacing: 1px;[m
+[32m+[m[32m        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);[m
+     }[m
+     [m
+     .main-header p {[m
+[31m-        color: #f0f8ff;[m
+[31m-        margin: 0.5rem 0 0 0;[m
+[31m-        font-size: 1.1rem;[m
+[32m+[m[32m        color: #e8f4fd;[m
+[32m+[m[32m        margin: 1rem 0 0 0;[m
+[32m+[m[32m        font-size: 1.2rem;[m
+[32m+[m[32m        font-weight: 300;[m
+[32m+[m[32m        opacity: 0.9;[m
+     }[m
+     [m
+     .metric-card {[m
+         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);[m
+[31m-        padding: 1.5rem;[m
+[31m-        border-radius: 10px;[m
+[32m+[m[32m        padding: 2rem 1.5rem;[m
+[32m+[m[32m        border-radius: 12px;[m
+         color: white;[m
+         text-align: center;[m
+[31m-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);[m
+         margin: 0.5rem;[m
+[32m+[m[32m        border: 1px solid rgba(255, 255, 255, 0.1);[m
+[32m+[m[32m        transition: transform 0.3s ease, box-shadow 0.3s ease;[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    .metric-card:hover {[m
+[32m+[m[32m        transform: translateY(-2px);[m
+[32m+[m[32m        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);[m
+     }[m
+     [m
+     .metric-value {[m
+[31m-        font-size: 2rem;[m
+[31m-        font-weight: bold;[m
+[32m+[m[32m        font-size: 2.2rem;[m
+[32m+[m[32m        font-weight: 600;[m
+         margin-bottom: 0.5rem;[m
+[32m+[m[32m        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);[m
+     }[m
+     [m
+     .metric-label {[m
+[31m-        font-size: 0.9rem;[m
+[32m+[m[32m        font-size: 0.95rem;[m
+         opacity: 0.9;[m
+[32m+[m[32m        font-weight: 400;[m
+[32m+[m[32m        letter-spacing: 0.5px;[m
+     }[m
+     [m
+     .section-header {[m
+[31m-        background: linear-gradient(90deg, #4CAF50, #45a049);[m
+[32m+[m[32m        background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);[m
+         color: white;[m
+[31m-        padding: 1rem;[m
+[31m-        border-radius: 8px;[m
+[31m-        margin: 1.5rem 0 1rem 0;[m
+[31m-        font-size: 1.3rem;[m
+[31m-        font-weight: 600;[m
+[32m+[m[32m        padding: 1.2rem;[m
+[32m+[m[32m        border-radius: 10px;[m
+[32m+[m[32m        margin: 2rem 0 1.5rem 0;[m
+[32m+[m[32m        font-size: 1.4rem;[m
+[32m+[m[32m        font-weight: 500;[m
+         text-align: center;[m
+[32m+[m[32m        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        border: 1px solid rgba(255, 255, 255, 0.1);[m
+[32m+[m[32m        letter-spacing: 0.5px;[m
+     }[m
+     [m
+     .recommendation-card {[m
+[31m-        background: #f8f9fa;[m
+[32m+[m[32m        background: #ffffff;[m
+         border-left: 4px solid #28a745;[m
+[31m-        padding: 1rem;[m
+[31m-        margin: 0.5rem 0;[m
+[31m-        border-radius: 5px;[m
+[31m-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        padding: 1.5rem;[m
+[32m+[m[32m        margin: 0.8rem 0;[m
+[32m+[m[32m        border-radius: 8px;[m
+[32m+[m[32m        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);[m
+[32m+[m[32m        border: 1px solid #e9ecef;[m
+[32m+[m[32m        transition: box-shadow 0.3s ease;[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    .recommendation-card:hover {[m
+[32m+[m[32m        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);[m
+     }[m
+     [m
+     .warning-card {[m
+[31m-        background: #fff3cd;[m
+[31m-        border-left: 4px solid #ffc107;[m
+[31m-        padding: 1rem;[m
+[31m-        margin: 0.5rem 0;[m
+[31m-        border-radius: 5px;[m
+[31m-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        background: #fff8e1;[m
+[32m+[m[32m        border-left: 4px solid #ff9800;[m
+[32m+[m[32m        padding: 1.5rem;[m
+[32m+[m[32m        margin: 0.8rem 0;[m
+[32m+[m[32m        border-radius: 8px;[m
+[32m+[m[32m        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);[m
+[32m+[m[32m        border: 1px solid #ffe0b2;[m
+     }[m
+     [m
+     .success-card {[m
+[31m-        background: #d4edda;[m
+[31m-        border-left: 4px solid #28a745;[m
+[31m-        padding: 1rem;[m
+[31m-        margin: 0.5rem 0;[m
+[31m-        border-radius: 5px;[m
+[31m-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        background: #e8f5e8;[m
+[32m+[m[32m        border-left: 4px solid #4caf50;[m
+[32m+[m[32m        padding: 1.5rem;[m
+[32m+[m[32m        margin: 0.8rem 0;[m
+[32m+[m[32m        border-radius: 8px;[m
+[32m+[m[32m        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);[m
+[32m+[m[32m        border: 1px solid #c8e6c9;[m
+     }[m
+     [m
+     .sidebar .sidebar-content {[m
+[36m@@ -111,64 +137,113 @@[m [mst.markdown("""[m
+     }[m
+     [m
+     .stButton > button {[m
+[31m-        background: linear-gradient(90deg, #28a745, #20c997);[m
+[32m+[m[32m        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);[m
+         color: white;[m
+         border: none;[m
+[31m-        border-radius: 25px;[m
+[31m-        padding: 0.75rem 2rem;[m
+[31m-        font-weight: 600;[m
+[31m-        font-size: 1.1rem;[m
+[32m+[m[32m        border-radius: 8px;[m
+[32m+[m[32m        padding: 0.8rem 2rem;[m
+[32m+[m[32m        font-weight: 500;[m
+[32m+[m[32m        font-size: 1rem;[m
+         transition: all 0.3s ease;[m
+[31m-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        letter-spacing: 0.5px;[m
+     }[m
+     [m
+     .stButton > button:hover {[m
+         transform: translateY(-2px);[m
+[31m-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);[m
+[32m+[m[32m        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);[m
+[32m+[m[32m        background: linear-gradient(135deg, #218838 0%, #1ea085 100%);[m
+     }[m
+     [m
+     .footer {[m
+[31m-        background: linear-gradient(90deg, #343a40, #495057);[m
+[32m+[m[32m        background: linear-gradient(135deg, #343a40 0%, #495057 100%);[m
+         color: white;[m
+[31m-        padding: 1.5rem;[m
+[32m+[m[32m        padding: 2rem;[m
+         text-align: center;[m
+[31m-        border-radius: 10px;[m
+[31m-        margin-top: 2rem;[m
+[32m+[m[32m        border-radius: 12px;[m
+[32m+[m[32m        margin-top: 3rem;[m
+[32m+[m[32m        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        border: 1px solid rgba(255, 255, 255, 0.1);[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    .footer h3 {[m
+[32m+[m[32m        font-weight: 300;[m
+[32m+[m[32m        letter-spacing: 1px;[m
+[32m+[m[32m        margin-bottom: 0.5rem;[m
+     }[m
+     [m
+     .crop-badge {[m
+         background: #e3f2fd;[m
+         color: #1976d2;[m
+[31m-        padding: 0.5rem 1rem;[m
+[31m-        border-radius: 20px;[m
+[32m+[m[32m        padding: 0.6rem 1.2rem;[m
+[32m+[m[32m        border-radius: 25px;[m
+         display: inline-block;[m
+[31m-        margin: 0.25rem;[m
+[32m+[m[32m        margin: 0.3rem;[m
+         font-weight: 500;[m
+         border: 2px solid #bbdefb;[m
+[32m+[m[32m        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        transition: transform 0.2s ease;[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    .crop-badge:hover {[m
+[32m+[m[32m        transform: translateY(-1px);[m
+     }[m
+     [m
+     .risk-high {[m
+         background: #ffebee;[m
+         color: #c62828;[m
+[31m-        padding: 0.5rem;[m
+[31m-        border-radius: 5px;[m
+[32m+[m[32m        padding: 1rem;[m
+[32m+[m[32m        border-radius: 8px;[m
+         border-left: 4px solid #f44336;[m
+[32m+[m[32m        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        margin: 0.5rem 0;[m
+     }[m
+     [m
+     .risk-medium {[m
+         background: #fff8e1;[m
+         color: #f57c00;[m
+[31m-        padding: 0.5rem;[m
+[31m-        border-radius: 5px;[m
+[32m+[m[32m        padding: 1rem;[m
+[32m+[m[32m        border-radius: 8px;[m
+         border-left: 4px solid #ff9800;[m
+[32m+[m[32m        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        margin: 0.5rem 0;[m
+     }[m
+     [m
+     .risk-low {[m
+         background: #e8f5e8;[m
+         color: #2e7d32;[m
+[31m-        padding: 0.5rem;[m
+[31m-        border-radius: 5px;[m
+[32m+[m[32m        padding: 1rem;[m
+[32m+[m[32m        border-radius: 8px;[m
+         border-left: 4px solid #4caf50;[m
+[32m+[m[32m        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);[m
+[32m+[m[32m        margin: 0.5rem 0;[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    /* Sidebar styling improvements */[m
+[32m+[m[32m    .sidebar .sidebar-content .block-container {[m
+[32m+[m[32m        padding-top: 1rem;[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    /* Input styling */[m
+[32m+[m[32m    .stSlider > div > div > div > div {[m
+[32m+[m[32m        background: linear-gradient(90deg, #4CAF50, #45a049);[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    .stSelectbox > div > div {[m
+[32m+[m[32m        background-color: white;[m
+[32m+[m[32m        border: 1px solid #ddd;[m
+[32m+[m[32m        border-radius: 6px;[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    /* Text improvements */[m
+[32m+[m[32m    h1, h2, h3, h4, h5, h6 {[m
+[32m+[m[32m        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;[m
+[32m+[m[32m    }[m
+[32m+[m[41m    [m
+[32m+[m[32m    /* Better spacing */[m
+[32m+[m[32m    .main .block-container {[m
+[32m+[m[32m        padding-top: 2rem;[m
+[32m+[m[32m        padding-bottom: 2rem;[m
+     }[m
+ </style>[m
+ """, unsafe_allow_html=True)[m
+[36m@@ -247,7 +322,7 @@[m [mexcept ImportError:[m
+ # Page configuration[m
+ st.set_page_config([m
+     page_title="Agricultural Advisory System",[m
+[31m-    page_icon="🌾",[m
+[32m+[m[32m    page_icon="📊",[m
+     layout="wide",[m
+     initial_sidebar_state="expanded"[m
+ )[m
+[36m@@ -255,7 +330,7 @@[m [mst.set_page_config([m
+ # Professional Header[m
+ st.markdown("""[m
+ <div class="main-header">[m
+[31m-    <h1>🌾 Agricultural Advisory System</h1>[m
+[32m+[m[32m    <h1>Agricultural Advisory System</h1>[m
+     <p>Evidence-backed crop recommendations and cropping plans for smallholder farmers in Uganda</p>[m
+ </div>[m
+ """, unsafe_allow_html=True)[m

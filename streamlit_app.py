@@ -353,19 +353,19 @@ def initialize_advisor():
             # Load GitHub PKL models into advisor
             if "cropping_planner.pkl" in models:
                 advisor.cropping_planner_model = models["cropping_planner.pkl"]
-                st.success("✅ Cropping planner model loaded from GitHub")
+                st.success("Cropping planner model loaded from GitHub")
             
             if "integrated_advisor.pkl" in models:
                 advisor.integrated_model = models["integrated_advisor.pkl"]
-                st.success("✅ Integrated advisor model loaded from GitHub")
+                st.success("Integrated advisor model loaded from GitHub")
             
             if "rule_engine.pkl" in models:
                 advisor.rule_engine_model = models["rule_engine.pkl"]
-                st.success("✅ Rule engine model loaded from GitHub")
+                st.success("Rule engine model loaded from GitHub")
             
             if "uncertainty_calibrator.pkl" in models:
                 advisor.uncertainty_model = models["uncertainty_calibrator.pkl"]
-                st.success("✅ Uncertainty calibrator model loaded from GitHub")
+                st.success("Uncertainty calibrator model loaded from GitHub")
             
             return advisor
             
@@ -377,76 +377,35 @@ def initialize_advisor():
 
 advisor = initialize_advisor()
 
-# GitHub Configuration
-if GITHUB_MODELS_AVAILABLE:
-    st.sidebar.header("🔗 GitHub Models")
-    
-    # GitHub repository configuration
-    github_repo = st.sidebar.text_input(
-        "GitHub Repository", 
-        value="Afrah-create/agricultural-advisory-system",
-        help="Format: owner/repository-name"
-    )
-    
-    github_branch = st.sidebar.text_input(
-        "Branch", 
-        value="main",
-        help="GitHub branch name"
-    )
-    
-    github_token = st.sidebar.text_input(
-        "GitHub Token (optional)", 
-        type="password",
-        help="Personal access token for private repositories"
-    )
-    
-    # Model refresh button
-    if st.sidebar.button("🔄 Refresh Models from GitHub"):
-        with st.spinner("Refreshing models from GitHub..."):
-            try:
-                # Create new model manager with updated config
-                new_manager = ModelManager(github_repo, github_branch, github_token)
-                models = new_manager.load_all_models()
-                
-                if models:
-                    st.sidebar.success(f"✅ Loaded {len(models)} models from GitHub")
-                    # Update the global model manager
-                    model_manager = new_manager
-                    # Clear cache to force reload
-                    st.cache_resource.clear()
-                else:
-                    st.sidebar.error("❌ No models found in repository")
-            except Exception as e:
-                st.sidebar.error(f"❌ Error refreshing models: {e}")
-    
-    # Model status
-    if model_manager:
+# System Status (Simplified)
+st.sidebar.markdown("### System Status")
+
+if model_manager and GITHUB_MODELS_AVAILABLE:
+    try:
         status = model_manager.get_model_status()
-        st.sidebar.markdown("### 📊 Model Status")
-        for model_name, info in status.items():
-            status_icon = "✅" if info["loaded"] else "❌"
-            st.sidebar.text(f"{status_icon} {model_name}")
-    
-    st.sidebar.markdown("---")
-
-# API Key configuration
-st.sidebar.header("🔑 API Configuration")
-api_key = st.sidebar.text_input("Gemini API Key (optional)", type="password", help="Enter your Gemini API key for enhanced recommendations")
-
-if api_key:
-    st.sidebar.success("✅ API key configured")
+        loaded_models = sum(1 for info in status.values() if info["loaded"])
+        total_models = len(status)
+        
+        if loaded_models == total_models:
+            st.sidebar.success("✓ All models loaded successfully")
+        else:
+            st.sidebar.warning(f"⚠ {loaded_models}/{total_models} models loaded")
+    except:
+        st.sidebar.info("ℹ Using offline mode")
 else:
-    st.sidebar.warning("⚠️ Using offline mode - some features may be limited")
+    st.sidebar.info("ℹ Using offline mode")
+
+st.sidebar.markdown("---")
 
 # Professional Sidebar
 st.sidebar.markdown("""
-<div style="text-align: center; padding: 1rem; background: linear-gradient(90deg, #2E8B57, #32CD32); border-radius: 10px; margin-bottom: 1rem;">
-    <h2 style="color: white; margin: 0;">📊 Soil Profile Analysis</h2>
+<div style="text-align: center; padding: 1.5rem; background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); border-radius: 12px; margin-bottom: 1.5rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: white; margin: 0; font-weight: 300; letter-spacing: 1px;">Soil Profile Analysis</h2>
 </div>
 """, unsafe_allow_html=True)
 
 # Soil properties input with icons and better styling
-st.sidebar.markdown("### 🌱 Soil Properties")
+st.sidebar.markdown("### Soil Properties")
 
 ph = st.sidebar.slider(
     "pH Level", 
@@ -479,7 +438,7 @@ potassium = st.sidebar.slider(
 )
 
 # Soil texture and drainage
-st.sidebar.markdown("### 🏞️ Soil Characteristics")
+st.sidebar.markdown("### Soil Characteristics")
 texture = st.sidebar.selectbox(
     "Soil Texture", 
     ["sand", "sandy_loam", "loam", "clay_loam", "clay"],
@@ -493,7 +452,7 @@ drainage = st.sidebar.selectbox(
 )
 
 # Resource constraints with better styling
-st.sidebar.markdown("### 🏡 Farm Constraints")
+st.sidebar.markdown("### Farm Constraints")
 total_area = st.sidebar.slider(
     "Farm Area (hectares)", 
     0.1, 10.0, 2.0, 0.1,
@@ -519,7 +478,7 @@ water_availability = st.sidebar.slider(
 )
 
 # Fertilizer availability
-st.sidebar.markdown("### 🧪 Fertilizer Availability")
+st.sidebar.markdown("### Fertilizer Availability")
 fertilizer_nitrogen = st.sidebar.slider(
     "Nitrogen Fertilizer (kg)", 
     50, 500, 200, 10,
@@ -539,13 +498,13 @@ fertilizer_potassium = st.sidebar.slider(
 )
 
 # Objectives with better styling
-st.sidebar.markdown("### 🎯 Optimization Objectives")
+st.sidebar.markdown("### Optimization Objectives")
 maximize_yield = st.sidebar.checkbox("Maximize Yield", True)
 minimize_cost = st.sidebar.checkbox("Minimize Cost", True)
 maximize_profit = st.sidebar.checkbox("Maximize Profit", True)
 
 # Main content area
-if st.button("🔬 Analyze Soil & Generate Recommendations", type="primary"):
+if st.button("Analyze Soil & Generate Recommendations", type="primary"):
     
     # Prepare soil data
     soil_data = {
@@ -587,13 +546,13 @@ if st.button("🔬 Analyze Soil & Generate Recommendations", type="primary"):
             # Professional success message
             st.markdown("""
             <div class="success-card">
-                <h3 style="margin: 0; color: #155724;">✅ Analysis Completed Successfully!</h3>
+                <h3 style="margin: 0; color: #155724;">Analysis Completed Successfully!</h3>
                 <p style="margin: 0.5rem 0 0 0; color: #155724;">Your soil analysis and crop recommendations are ready.</p>
             </div>
             """, unsafe_allow_html=True)
             
             # Executive Summary with custom styling
-            st.markdown('<div class="section-header">📋 Executive Summary</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-header">Executive Summary</div>', unsafe_allow_html=True)
             summary = report["executive_summary"]
             
             # Create custom metric cards
@@ -616,7 +575,7 @@ if st.button("🔬 Analyze Soil & Generate Recommendations", type="primary"):
                 """, unsafe_allow_html=True)
             
             with col3:
-                status = "✅ Valid" if summary['overall_recommendation_valid'] else "❌ Invalid"
+                status = "Valid" if summary['overall_recommendation_valid'] else "Invalid"
                 st.markdown(f"""
                 <div class="metric-card">
                     <div class="metric-value">{status}</div>
@@ -633,21 +592,21 @@ if st.button("🔬 Analyze Soil & Generate Recommendations", type="primary"):
                 """, unsafe_allow_html=True)
             
             # Detailed Analysis with professional styling
-            st.markdown('<div class="section-header">🔍 Detailed Analysis</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-header">Detailed Analysis</div>', unsafe_allow_html=True)
             
             # Soil Analysis
-            st.markdown('<div class="section-header">🌱 Soil Analysis</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-header">Soil Analysis</div>', unsafe_allow_html=True)
             soil_analysis = report["detailed_analysis"]["soil_analysis"]
             
             col1, col2 = st.columns(2)
             
             with col1:
-                st.markdown("### ✅ Soil Strengths")
+                st.markdown("### Soil Strengths")
                 if soil_analysis["strengths"]:
                     for strength in soil_analysis["strengths"]:
                         st.markdown(f"""
                         <div class="recommendation-card">
-                            <strong>✅ {strength}</strong>
+                            <strong>✓ {strength}</strong>
                         </div>
                         """, unsafe_allow_html=True)
                 else:
@@ -658,23 +617,23 @@ if st.button("🔬 Analyze Soil & Generate Recommendations", type="primary"):
                     """, unsafe_allow_html=True)
             
             with col2:
-                st.markdown("### ⚠️ Areas for Improvement")
+                st.markdown("### Areas for Improvement")
                 if soil_analysis["weaknesses"]:
                     for weakness in soil_analysis["weaknesses"]:
                         st.markdown(f"""
                         <div class="warning-card">
-                            <strong>⚠️ {weakness}</strong>
+                            <strong>⚠ {weakness}</strong>
                         </div>
                         """, unsafe_allow_html=True)
                 else:
                     st.markdown("""
                     <div class="success-card">
-                        <strong>✅ No significant weaknesses identified</strong>
+                        <strong>✓ No significant weaknesses identified</strong>
                     </div>
                     """, unsafe_allow_html=True)
             
             # Crop Recommendations with badges
-            st.markdown('<div class="section-header">🌾 Crop Recommendations</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-header">Crop Recommendations</div>', unsafe_allow_html=True)
             recommendations = report["detailed_analysis"]["recommendations"]
             
             st.markdown(f"""
@@ -744,7 +703,7 @@ if st.button("🔬 Analyze Soil & Generate Recommendations", type="primary"):
                         """, unsafe_allow_html=True)
             
             # Actionable Recommendations with professional styling
-            st.markdown('<div class="section-header">💡 Actionable Recommendations</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-header">Actionable Recommendations</div>', unsafe_allow_html=True)
             
             for i, rec in enumerate(report["actionable_recommendations"], 1):
                 st.markdown(f"""
@@ -754,62 +713,62 @@ if st.button("🔬 Analyze Soil & Generate Recommendations", type="primary"):
                 """, unsafe_allow_html=True)
             
             # Risk Assessment with color-coded styling
-            st.markdown('<div class="section-header">⚠️ Risk Assessment</div>', unsafe_allow_html=True)
+            st.markdown('<div class="section-header">Risk Assessment</div>', unsafe_allow_html=True)
             risk_assessment = report["risk_assessment"]
             
             col1, col2, col3 = st.columns(3)
             
             with col1:
-                st.markdown("### 🔴 High Risk Factors")
+                st.markdown("### High Risk Factors")
                 if risk_assessment["high_risk_factors"]:
                     for risk in risk_assessment["high_risk_factors"]:
                         st.markdown(f"""
                         <div class="risk-high">
-                            <strong>🔴 {risk}</strong>
+                            <strong>● {risk}</strong>
                         </div>
                         """, unsafe_allow_html=True)
                 else:
                     st.markdown("""
                     <div class="risk-low">
-                        <strong>✅ No high-risk factors</strong>
+                        <strong>✓ No high-risk factors</strong>
                     </div>
                     """, unsafe_allow_html=True)
             
             with col2:
-                st.markdown("### 🟡 Medium Risk Factors")
+                st.markdown("### Medium Risk Factors")
                 if risk_assessment["medium_risk_factors"]:
                     for risk in risk_assessment["medium_risk_factors"]:
                         st.markdown(f"""
                         <div class="risk-medium">
-                            <strong>🟡 {risk}</strong>
+                            <strong>● {risk}</strong>
                         </div>
                         """, unsafe_allow_html=True)
                 else:
                     st.markdown("""
                     <div class="risk-low">
-                        <strong>✅ No medium-risk factors</strong>
+                        <strong>✓ No medium-risk factors</strong>
                     </div>
                     """, unsafe_allow_html=True)
             
             with col3:
-                st.markdown("### 🟢 Low Risk Factors")
+                st.markdown("### Low Risk Factors")
                 if risk_assessment["low_risk_factors"]:
                     for risk in risk_assessment["low_risk_factors"]:
                         st.markdown(f"""
                         <div class="risk-low">
-                            <strong>🟢 {risk}</strong>
+                            <strong>● {risk}</strong>
                         </div>
                         """, unsafe_allow_html=True)
                 else:
                     st.markdown("""
                     <div class="risk-low">
-                        <strong>✅ No low-risk factors</strong>
+                        <strong>✓ No low-risk factors</strong>
                     </div>
                     """, unsafe_allow_html=True)
             
             # Mitigation Strategies
             if risk_assessment["mitigation_strategies"]:
-                st.markdown('<div class="section-header">🛡️ Mitigation Strategies</div>', unsafe_allow_html=True)
+                st.markdown('<div class="section-header">Mitigation Strategies</div>', unsafe_allow_html=True)
                 for i, strategy in enumerate(risk_assessment["mitigation_strategies"], 1):
                     st.markdown(f"""
                     <div class="recommendation-card">
@@ -824,7 +783,7 @@ if st.button("🔬 Analyze Soil & Generate Recommendations", type="primary"):
 # Professional Footer
 st.markdown("""
 <div class="footer">
-    <h3>🌾 Agricultural Advisory System for Uganda</h3>
+    <h3>Agricultural Advisory System for Uganda</h3>
     <p>Evidence-backed crop recommendations and cropping plans for smallholder farmers</p>
     <div style="margin-top: 1rem;">
         <span style="margin: 0 1rem;">Built with Streamlit</span>
