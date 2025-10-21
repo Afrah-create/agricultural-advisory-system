@@ -22,17 +22,17 @@ except ImportError:
     GITHUB_MODELS_AVAILABLE = False
     st.warning("GitHub model loader not available. Using local models only.")
 
-# Custom CSS for responsive scrollable styling
+# Custom CSS for refined professional styling
 st.markdown("""
 <style>
-    /* Responsive styling for larger devices */
+    /* Professional styling with better hierarchy */
     .main .block-container {
         padding-top: 1rem;
         padding-bottom: 2rem;
         max-width: 1200px;
     }
     
-    /* Sidebar styling with better spacing */
+    /* Sidebar styling with improved spacing */
     .sidebar .sidebar-content {
         background: linear-gradient(180deg, #f8f9fa, #e9ecef);
         padding-top: 1rem;
@@ -60,7 +60,7 @@ st.markdown("""
         margin-bottom: 0.5rem;
     }
     
-    /* Better section spacing */
+    /* Better section spacing and hierarchy */
     .section-header {
         padding: 1rem;
         margin: 1.5rem 0 1rem 0;
@@ -94,11 +94,19 @@ st.markdown("""
     .footer {
         padding: 1.5rem;
         margin-top: 2rem;
+        background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+        color: white;
+        text-align: center;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .footer h3 {
         font-size: 1rem;
         margin-bottom: 0.5rem;
+        font-weight: 300;
+        letter-spacing: 1px;
     }
     
     .footer p {
@@ -109,6 +117,44 @@ st.markdown("""
     /* Better spacing for main content */
     .main .block-container > div {
         margin-bottom: 1rem;
+    }
+    
+    /* Improved metric cards */
+    .metric-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 1.5rem;
+        border-radius: 12px;
+        color: white;
+        text-align: center;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        margin: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Better button styling */
+    .stButton > button {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.8rem 2rem;
+        font-weight: 500;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        letter-spacing: 0.5px;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
     }
 </style>
 """, unsafe_allow_html=True)
@@ -418,24 +464,48 @@ if minimize_cost:
 if maximize_profit:
     objectives.append("maximize_profit")
 
-# Analysis button
-if st.button("Analyze Soil & Generate Recommendations", type="primary"):
+# Main Content Section with better organization
+st.markdown("---")
+
+# Analysis Section
+st.markdown("## 🔬 Soil Analysis & Recommendations")
+
+# Display current soil parameters in a clean format
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric("pH Level", f"{ph:.1f}")
+    st.metric("Organic Matter", f"{organic_matter:.1f}%")
+
+with col2:
+    st.metric("Nitrogen", f"{nitrogen} kg/ha")
+    st.metric("Phosphorus", f"{phosphorus} kg/ha")
+
+with col3:
+    st.metric("Potassium", f"{potassium} kg/ha")
+    st.metric("Soil Texture", texture.title())
+
+# Analysis button with better styling
+st.markdown("---")
+if st.button("🔍 Analyze Soil & Generate Recommendations", type="primary", use_container_width=True):
     
     # Generate comprehensive analysis
     with st.spinner("Analyzing soil and generating recommendations..."):
         try:
             report = advisor.analyze_soil_and_recommend(soil_data, constraints, objectives)
             
-            # Professional success message
-            st.markdown("""
-            <div class="success-card">
-                <h3 style="margin: 0; color: #155724;">Analysis Completed Successfully!</h3>
-                <p style="margin: 0.5rem 0 0 0; color: #155724;">Your soil analysis and crop recommendations are ready.</p>
-            </div>
-            """, unsafe_allow_html=True)
+            # Professional success message with better styling
+            st.success("✅ Analysis Completed Successfully!")
+            st.info("Your soil analysis and crop recommendations are ready.")
+            
+            # Add spacing
+            st.markdown("<br>", unsafe_allow_html=True)
             
             # Executive Summary with neat tables
             st.markdown("### 📊 Executive Summary")
+            
+            # Get summary from report
+            summary = report["executive_summary"]
             
             # Create summary metrics table
             summary_data = {
@@ -579,34 +649,43 @@ if st.button("Analyze Soil & Generate Recommendations", type="primary"):
             st.error(f"Analysis failed: {str(e)}")
             st.write("Please check your inputs and try again.")
 
-# Information Panel
+# System Information Panel with better organization
 st.markdown("---")
-st.markdown("### System Information")
+st.markdown("## ℹ️ System Information")
 
-col1, col2 = st.columns(2)
+# Create tabs for better organization
+tab1, tab2, tab3 = st.tabs(["📊 Status", "⚙️ Features", "📈 Statistics"])
 
-with col1:
-    st.markdown("**System Status:**")
-    st.success("✓ All models loaded successfully")
+with tab1:
+    st.markdown("### System Status")
+    st.success("✅ All models loaded successfully")
+    st.success("✅ System initialized")
+    st.success("✅ Models loaded")
+    st.info("ℹ️ Ready for analysis")
+
+with tab2:
+    st.markdown("### Available Features")
+    features = [
+        "🌱 Soil analysis and profiling",
+        "🌾 Crop recommendations based on soil conditions",
+        "📋 Optimization planning for farming operations",
+        "⚠️ Risk assessment and mitigation strategies"
+    ]
+    for feature in features:
+        st.markdown(f"• {feature}")
+
+with tab3:
+    st.markdown("### Quick Statistics")
+    col1, col2, col3 = st.columns(3)
     
-    st.markdown("**Available Features:**")
-    st.info("""
-    - Soil analysis
-    - Crop recommendations  
-    - Optimization planning
-    - Risk assessment
-    """)
-
-with col2:
-    st.markdown("**Recent Activity:**")
-    st.success("✓ System initialized")
-    st.success("✓ Models loaded")
-    st.info("ℹ Ready for analysis")
+    with col1:
+        st.metric("Soil Parameters", "8", help="pH, Organic Matter, N, P, K, Texture, Drainage, Location")
     
-    st.markdown("**Quick Stats:**")
-    st.metric("Soil Parameters", "8")
-    st.metric("Farm Constraints", "7")
-    st.metric("Optimization Goals", f"{len(objectives)}")
+    with col2:
+        st.metric("Farm Constraints", "7", help="Area, Budget, Labor, Water, Fertilizers")
+    
+    with col3:
+        st.metric("Optimization Goals", f"{len(objectives)}", help="Yield, Cost, Profit optimization")
 
 # Professional Footer
 st.markdown("""
