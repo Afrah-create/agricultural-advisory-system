@@ -73,9 +73,9 @@ st.markdown("""
     
     /* Simple rotating text banner - no complex carousel needed */
     
-    /* Main content spacing - Adjusted for header carousel */
+    /* Simple styling for clean layout */
     .main .block-container {
-        padding-top: 5rem !important;
+        padding-top: 2rem;
         padding-bottom: 2rem;
         max-width: 1200px;
     }
@@ -237,10 +237,10 @@ st.markdown("""
         background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
     }
     
-    /* Sidebar improvements - Adjusted for header carousel */
+    /* Sidebar improvements - Simple layout */
     .sidebar .sidebar-content {
         background: linear-gradient(180deg, #f8f9fa, #e9ecef);
-        padding-top: 5rem;
+        padding-top: 1rem;
     }
     
     .sidebar .sidebar-content .block-container {
@@ -306,29 +306,15 @@ st.markdown("""
         padding-bottom: 6rem !important;
     }
     
-    /* Responsive design */
+    /* Responsive design - Simplified */
     @media (max-width: 768px) {
-        .header-content {
-            flex-direction: column;
-            text-align: center;
-            gap: 0.2rem;
-        }
-        
-        .header-title {
-            font-size: 0.9rem;
-        }
-        
-        .header-subtitle {
-            font-size: 0.6rem;
-        }
-        
         .main .block-container {
-            padding-top: 6rem !important;
+            padding-top: 2rem !important;
             padding-bottom: 8rem !important;
         }
         
         .sidebar .sidebar-content {
-            padding-top: 6rem;
+            padding-top: 1rem;
         }
         
         .metric-card {
@@ -552,12 +538,12 @@ def create_carousel():
     
     return True
 
-# Simple Header Carousel Component
-def create_header_carousel():
-    """Create a simple rotating text banner in the header"""
+# Simple rotating text component using Streamlit
+def create_rotating_banner():
+    """Create a simple rotating text banner using Streamlit components"""
     
-    # Carousel data for header
-    carousel_messages = [
+    # Carousel messages
+    messages = [
         "Maize Cultivation - High-yield varieties for Uganda",
         "Carrot Farming - Nutrient-rich cultivation techniques", 
         "Sustainable Agriculture - Eco-friendly farming practices",
@@ -565,55 +551,46 @@ def create_header_carousel():
         "Farm Technology - Modern tools for productivity"
     ]
     
-    # Initialize session state for header carousel
-    if 'header_carousel_index' not in st.session_state:
-        st.session_state.header_carousel_index = 0
-    
-    # Auto-advance header carousel
-    if st.session_state.header_carousel_index >= len(carousel_messages):
-        st.session_state.header_carousel_index = 0
+    # Initialize session state
+    if 'banner_index' not in st.session_state:
+        st.session_state.banner_index = 0
     
     # Get current message
-    current_message = carousel_messages[st.session_state.header_carousel_index]
+    current_message = messages[st.session_state.banner_index % len(messages)]
     
-    # Return simple HTML for rotating text
-    return f"""
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
-                background: linear-gradient(135deg, rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
-                display: flex; align-items: center; justify-content: center; z-index: -1;">
-        <div style="color: white; font-size: 0.8rem; font-weight: 500; text-align: center; 
-                    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); opacity: 0.8; padding: 0 2rem;">
+    # Display rotating banner
+    st.markdown(f"""
+    <div style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; 
+                padding: 0.5rem; text-align: center; border-radius: 5px; margin-bottom: 1rem;">
+        <p style="margin: 0; font-size: 0.9rem; font-weight: 500;">
             {current_message}
-        </div>
+        </p>
     </div>
-    """
+    """, unsafe_allow_html=True)
+    
+    # Auto-advance every 3 seconds
+    import time
+    time.sleep(3)
+    st.session_state.banner_index += 1
+    st.rerun()
 
-# Fixed Header with Dynamic Date and Carousel
+# Simple Header without complex HTML
 from datetime import datetime
 current_date = datetime.now().strftime("%B %d, %Y")
 current_time = datetime.now().strftime("%I:%M %p")
 
+# Display rotating banner
+create_rotating_banner()
+
+# Simple header
 st.markdown(f"""
-<div class="fixed-header">
-    {create_header_carousel()}
-    <div class="header-content">
-        <div>
-            <h1 class="header-title">Agricultural Advisory System</h1>
-            <p class="header-subtitle">Evidence-backed crop recommendations for Uganda</p>
-        </div>
-        <div class="header-date">
-            <div>{current_date}</div>
-            <div>{current_time}</div>
-        </div>
-    </div>
+<div style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; 
+            padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center;">
+    <h1 style="margin: 0 0 0.5rem 0; font-size: 1.5rem;">Agricultural Advisory System</h1>
+    <p style="margin: 0 0 0.5rem 0; font-size: 1rem; opacity: 0.9;">Evidence-backed crop recommendations for Uganda</p>
+    <p style="margin: 0; font-size: 0.8rem; opacity: 0.8;">{current_date} • {current_time}</p>
 </div>
 """, unsafe_allow_html=True)
-
-# Auto-advance header carousel
-import time
-time.sleep(3)
-st.session_state.header_carousel_index += 1
-st.rerun()
 
 # Initialize the advisor with GitHub models
 @st.cache_resource
