@@ -22,62 +22,26 @@ except ImportError:
     GITHUB_MODELS_AVAILABLE = False
     st.warning("GitHub model loader not available. Using local models only.")
 
-# Custom CSS for professional styling
+# Custom CSS for clean, professional styling
 st.markdown("""
 <style>
-    /* Header with Integrated Carousel */
-    .fixed-header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        padding: 0.6rem 1rem;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .header-content {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .header-title {
-        color: white;
-        margin: 0;
-        font-size: 1.1rem;
-        font-weight: 600;
-        letter-spacing: 0.3px;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-    }
-    
-    .header-subtitle {
-        color: #e8f4fd;
-        margin: 0.1rem 0 0 0;
-        font-size: 0.65rem;
-        font-weight: 300;
-        opacity: 0.9;
-    }
-    
-    .header-date {
-        color: #e8f4fd;
-        font-size: 0.65rem;
-        font-weight: 300;
-        opacity: 0.8;
-        text-align: right;
-    }
-    
-    /* Simple rotating text banner - no complex carousel needed */
-    
-    /* Simple styling for clean layout */
+    /* Clean, simple styling */
     .main .block-container {
-        padding-top: 2rem;
+        padding-top: 1rem;
         padding-bottom: 2rem;
         max-width: 1200px;
+    }
+    
+    /* Sidebar styling */
+    .sidebar .sidebar-content {
+        background: linear-gradient(180deg, #f8f9fa, #e9ecef);
+        padding-top: 1rem;
+    }
+    
+    .sidebar .sidebar-content .block-container {
+        padding-top: 0.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
     
     /* Card improvements */
@@ -131,91 +95,6 @@ st.markdown("""
         letter-spacing: 0.5px;
     }
     
-    /* Improved cards */
-    .recommendation-card {
-        background: #ffffff;
-        border-left: 4px solid #28a745;
-        padding: 1.5rem;
-        margin: 1rem 0;
-        border-radius: 8px;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-        border: 1px solid #e9ecef;
-        transition: box-shadow 0.3s ease;
-    }
-    
-    .recommendation-card:hover {
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
-    }
-    
-    .warning-card {
-        background: #fff8e1;
-        border-left: 4px solid #ff9800;
-        padding: 1.5rem;
-        margin: 1rem 0;
-        border-radius: 8px;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-        border: 1px solid #ffe0b2;
-    }
-    
-    .success-card {
-        background: #e8f5e8;
-        border-left: 4px solid #4caf50;
-        padding: 1.5rem;
-        margin: 1rem 0;
-        border-radius: 8px;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-        border: 1px solid #c8e6c9;
-    }
-    
-    /* Risk cards */
-    .risk-high {
-        background: #ffebee;
-        color: #c62828;
-        padding: 1rem;
-        border-radius: 8px;
-        border-left: 4px solid #f44336;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        margin: 0.5rem 0;
-    }
-    
-    .risk-medium {
-        background: #fff8e1;
-        color: #f57c00;
-        padding: 1rem;
-        border-radius: 8px;
-        border-left: 4px solid #ff9800;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        margin: 0.5rem 0;
-    }
-    
-    .risk-low {
-        background: #e8f5e8;
-        color: #2e7d32;
-        padding: 1rem;
-        border-radius: 8px;
-        border-left: 4px solid #4caf50;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        margin: 0.5rem 0;
-    }
-    
-    /* Crop badges */
-    .crop-badge {
-        background: #e3f2fd;
-        color: #1976d2;
-        padding: 0.6rem 1.2rem;
-        border-radius: 25px;
-        display: inline-block;
-        margin: 0.3rem;
-        font-weight: 500;
-        border: 2px solid #bbdefb;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s ease;
-    }
-    
-    .crop-badge:hover {
-        transform: translateY(-1px);
-    }
-    
     /* Button improvements */
     .stButton > button {
         background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
@@ -237,122 +116,22 @@ st.markdown("""
         background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
     }
     
-    /* Sidebar improvements - Simple layout */
-    .sidebar .sidebar-content {
-        background: linear-gradient(180deg, #f8f9fa, #e9ecef);
-        padding-top: 1rem;
-    }
-    
-    .sidebar .sidebar-content .block-container {
-        padding-top: 0.5rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-    
-    /* Sidebar section styling */
-    .sidebar .stMarkdown h3 {
-        font-size: 1rem;
-        margin-bottom: 0.5rem;
-        color: #495057;
-    }
-    
-    .sidebar .stSlider {
-        margin-bottom: 0.5rem;
-    }
-    
-    .sidebar .stSelectbox {
-        margin-bottom: 0.5rem;
-    }
-    
-    .sidebar .stCheckbox {
-        margin-bottom: 0.3rem;
-    }
-    
-    /* Footer - Fixed and Compact */
+    /* Footer */
     .footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
         background: linear-gradient(135deg, #343a40 0%, #495057 100%);
         color: white;
-        padding: 0.8rem 1rem;
+        padding: 2rem;
         text-align: center;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.15);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        z-index: 1000;
+        border-radius: 12px;
+        margin-top: 3rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .footer h3 {
-        font-weight: 400;
-        font-size: 0.9rem;
-        letter-spacing: 0.5px;
-        margin-bottom: 0.2rem;
-    }
-    
-    .footer p {
-        font-size: 0.75rem;
-        margin: 0.2rem 0;
-        opacity: 0.8;
-    }
-    
-    .footer div {
-        font-size: 0.7rem;
-        margin-top: 0.3rem;
-    }
-    
-    /* Add bottom padding to main content to account for fixed footer */
-    .main .block-container {
-        padding-bottom: 6rem !important;
-    }
-    
-    /* Responsive design - Simplified */
-    @media (max-width: 768px) {
-        .main .block-container {
-            padding-top: 2rem !important;
-            padding-bottom: 8rem !important;
-        }
-        
-        .sidebar .sidebar-content {
-            padding-top: 1rem;
-        }
-        
-        .metric-card {
-            margin: 0.3rem;
-            padding: 1.5rem 1rem;
-        }
-        
-        .metric-value {
-            font-size: 1.8rem;
-        }
-        
-        .footer {
-            padding: 0.6rem 0.8rem;
-        }
-        
-        .footer h3 {
-            font-size: 0.8rem;
-        }
-        
-        .footer p {
-            font-size: 0.7rem;
-        }
-    }
-    
-    /* Input styling */
-    .stSlider > div > div > div > div {
-        background: linear-gradient(90deg, #4CAF50, #45a049);
-    }
-    
-    .stSelectbox > div > div {
-        background-color: white;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-    }
-    
-    /* Text improvements */
-    h1, h2, h3, h4, h5, h6 {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 300;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
     }
     
     /* Hide default Streamlit header */
@@ -538,59 +317,128 @@ def create_carousel():
     
     return True
 
-# Simple rotating text component using Streamlit
-def create_rotating_banner():
-    """Create a simple rotating text banner using Streamlit components"""
+# Professional Agricultural Advisory System
+from datetime import datetime
+
+# App Header
+st.markdown("""
+<div style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; 
+            padding: 2rem; border-radius: 10px; margin-bottom: 2rem; text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
+    <h1 style="margin: 0 0 0.5rem 0; font-size: 2rem; font-weight: 600;">
+        Agricultural Advisory System
+    </h1>
+    <p style="margin: 0 0 1rem 0; font-size: 1.1rem; opacity: 0.9;">
+        Evidence-backed crop recommendations for Uganda
+    </p>
+    <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">
+        {current_date} • {current_time}
+    </p>
+</div>
+""".format(
+    current_date=datetime.now().strftime("%B %d, %Y"),
+    current_time=datetime.now().strftime("%I:%M %p")
+), unsafe_allow_html=True)
+
+# Working Carousel Component
+def create_carousel():
+    """Create a working carousel using Streamlit tabs"""
     
-    # Carousel messages
-    messages = [
-        "Maize Cultivation - High-yield varieties for Uganda",
-        "Carrot Farming - Nutrient-rich cultivation techniques", 
-        "Sustainable Agriculture - Eco-friendly farming practices",
-        "Crop Research - Advanced agricultural development",
-        "Farm Technology - Modern tools for productivity"
+    # Carousel data
+    carousel_data = [
+        {
+            "image": "images/maize.jpeg",
+            "title": "Maize Cultivation",
+            "description": "High-yield maize varieties optimized for Ugandan soil conditions and climate patterns.",
+            "caption": "Essential staple crop for food security"
+        },
+        {
+            "image": "images/carrot.jpeg", 
+            "title": "Carrot Farming",
+            "description": "Nutrient-rich carrot cultivation techniques for improved soil health and crop rotation.",
+            "caption": "High-value crop for nutrition and income"
+        },
+        {
+            "image": "images/green-paper (1).jpeg",
+            "title": "Sustainable Agriculture",
+            "description": "Eco-friendly farming practices that promote soil conservation and environmental sustainability.",
+            "caption": "Protecting our environment for future generations"
+        },
+        {
+            "image": "images/red-paper (2).jpeg",
+            "title": "Crop Research",
+            "description": "Advanced agricultural research and development for improved crop varieties and farming methods.",
+            "caption": "Innovation driving agricultural progress"
+        },
+        {
+            "image": "images/red-paper (3).jpeg",
+            "title": "Farm Technology",
+            "description": "Modern farming technologies and tools to increase productivity and efficiency.",
+            "caption": "Technology empowering smallholder farmers"
+        }
     ]
     
-    # Initialize session state
-    if 'banner_index' not in st.session_state:
-        st.session_state.banner_index = 0
+    # Initialize session state for carousel
+    if 'carousel_index' not in st.session_state:
+        st.session_state.carousel_index = 0
     
-    # Get current message
-    current_message = messages[st.session_state.banner_index % len(messages)]
+    # Auto-advance carousel
+    if st.session_state.carousel_index >= len(carousel_data):
+        st.session_state.carousel_index = 0
     
-    # Display rotating banner
-    st.markdown(f"""
-    <div style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; 
-                padding: 0.5rem; text-align: center; border-radius: 5px; margin-bottom: 1rem;">
-        <p style="margin: 0; font-size: 0.9rem; font-weight: 500;">
-            {current_message}
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    # Get current slide
+    current_slide = carousel_data[st.session_state.carousel_index]
     
-    # Auto-advance every 3 seconds
+    # Create carousel section
+    st.markdown("### Agricultural Showcase")
+    
+    # Create columns for image and content
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        # Display image
+        st.image(
+            current_slide["image"], 
+            use_container_width=True,
+            caption=current_slide["caption"]
+        )
+    
+    with col2:
+        # Display content in a styled card
+        st.markdown(f"""
+        <div style="padding: 1.5rem; background: linear-gradient(135deg, #f8f9fa, #e9ecef); 
+                    border-radius: 10px; height: 100%; border-left: 4px solid #4CAF50; 
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+            <h4 style="color: #1e3c72; margin-bottom: 1rem; font-weight: 600; font-size: 1.1rem;">
+                {current_slide['title']}
+            </h4>
+            <p style="color: #495057; line-height: 1.5; margin-bottom: 1rem; font-size: 0.9rem;">
+                {current_slide['description']}
+            </p>
+            <p style="color: #6c757d; font-style: italic; font-size: 0.8rem; margin: 0;">
+                {current_slide['caption']}
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Navigation dots
+    cols = st.columns(len(carousel_data))
+    for i, col in enumerate(cols):
+        with col:
+            if st.button(f"•", key=f"dot_{i}", help=f"Go to {carousel_data[i]['title']}"):
+                st.session_state.carousel_index = i
+                st.rerun()
+    
+    # Auto-advance timer (this will cause a rerun every 4 seconds)
     import time
-    time.sleep(3)
-    st.session_state.banner_index += 1
+    time.sleep(4)
+    st.session_state.carousel_index += 1
     st.rerun()
+    
+    return True
 
-# Simple Header without complex HTML
-from datetime import datetime
-current_date = datetime.now().strftime("%B %d, %Y")
-current_time = datetime.now().strftime("%I:%M %p")
-
-# Display rotating banner
-create_rotating_banner()
-
-# Simple header
-st.markdown(f"""
-<div style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; 
-            padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center;">
-    <h1 style="margin: 0 0 0.5rem 0; font-size: 1.5rem;">Agricultural Advisory System</h1>
-    <p style="margin: 0 0 0.5rem 0; font-size: 1rem; opacity: 0.9;">Evidence-backed crop recommendations for Uganda</p>
-    <p style="margin: 0; font-size: 0.8rem; opacity: 0.8;">{current_date} • {current_time}</p>
-</div>
-""", unsafe_allow_html=True)
+# Display Carousel
+create_carousel()
 
 # Initialize the advisor with GitHub models
 @st.cache_resource
