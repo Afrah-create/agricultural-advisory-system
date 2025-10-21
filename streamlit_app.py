@@ -465,230 +465,146 @@ with col1:
             </div>
             """, unsafe_allow_html=True)
             
-            # Executive Summary with custom styling
-            st.markdown('<div class="section-header">Executive Summary</div>', unsafe_allow_html=True)
-            summary = report["executive_summary"]
+            # Executive Summary with neat tables
+            st.markdown("### 📊 Executive Summary")
             
-            # Create custom metric cards
-            col1, col2, col3, col4 = st.columns(4)
-            
-            with col1:
-                st.markdown(f"""
-                <div class="metric-card">
-                    <div class="metric-value">{summary['soil_quality_score']:.2f}</div>
-                    <div class="metric-label">Soil Quality Score</div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col2:
-                st.markdown(f"""
-                <div class="metric-card">
-                    <div class="metric-value">{len(summary['recommended_crops'])}</div>
-                    <div class="metric-label">Recommended Crops</div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col3:
-                status = "Valid" if summary['overall_recommendation_valid'] else "Invalid"
-                st.markdown(f"""
-                <div class="metric-card">
-                    <div class="metric-value">{status}</div>
-                    <div class="metric-label">Recommendations</div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col4:
-                st.markdown(f"""
-                <div class="metric-card">
-                    <div class="metric-value">{summary['uncertainty_level'].title()}</div>
-                    <div class="metric-label">Uncertainty Level</div>
-                </div>
-                """, unsafe_allow_html=True)
+            # Create summary metrics table
+            summary_data = {
+                "Metric": ["Soil Quality Score", "Recommended Crops", "Recommendation Status", "Uncertainty Level"],
+                "Value": [
+                    f"{summary['soil_quality_score']:.2f}",
+                    f"{len(summary['recommended_crops'])} crops",
+                    "Valid" if summary['overall_recommendation_valid'] else "Invalid",
+                    summary['uncertainty_level'].title()
+                ]
+            }
+            summary_df = pd.DataFrame(summary_data)
+            st.dataframe(summary_df, use_container_width=True, hide_index=True)
             
             # Detailed Analysis with professional styling
             st.markdown('<div class="section-header">Detailed Analysis</div>', unsafe_allow_html=True)
             
-            # Soil Analysis
-            st.markdown('<div class="section-header">Soil Analysis</div>', unsafe_allow_html=True)
+            # Soil Analysis with neat tables
+            st.markdown("### 🌱 Soil Analysis")
             soil_analysis = report["detailed_analysis"]["soil_analysis"]
             
-            col1, col2 = st.columns(2)
+            # Soil strengths table
+            if soil_analysis["strengths"]:
+                strengths_data = {
+                    "Soil Strengths": soil_analysis["strengths"]
+                }
+                strengths_df = pd.DataFrame(strengths_data)
+                st.markdown("**✅ Soil Strengths:**")
+                st.dataframe(strengths_df, use_container_width=True, hide_index=True)
+            else:
+                st.warning("No significant soil strengths identified")
             
-            with col1:
-                st.markdown("### Soil Strengths")
-                if soil_analysis["strengths"]:
-                    for strength in soil_analysis["strengths"]:
-                        st.markdown(f"""
-                        <div class="recommendation-card">
-                            <strong>✓ {strength}</strong>
-                        </div>
-                        """, unsafe_allow_html=True)
-                else:
-                    st.markdown("""
-                    <div class="warning-card">
-                        <strong>No significant strengths identified</strong>
-                    </div>
-                    """, unsafe_allow_html=True)
+            # Soil weaknesses table
+            if soil_analysis["weaknesses"]:
+                weaknesses_data = {
+                    "Areas for Improvement": soil_analysis["weaknesses"]
+                }
+                weaknesses_df = pd.DataFrame(weaknesses_data)
+                st.markdown("**⚠️ Areas for Improvement:**")
+                st.dataframe(weaknesses_df, use_container_width=True, hide_index=True)
+            else:
+                st.success("No significant soil weaknesses identified")
             
-            with col2:
-                st.markdown("### Areas for Improvement")
-                if soil_analysis["weaknesses"]:
-                    for weakness in soil_analysis["weaknesses"]:
-                        st.markdown(f"""
-                        <div class="warning-card">
-                            <strong>⚠ {weakness}</strong>
-                        </div>
-                        """, unsafe_allow_html=True)
-                else:
-                    st.markdown("""
-                    <div class="success-card">
-                        <strong>✓ No significant weaknesses identified</strong>
-                    </div>
-                    """, unsafe_allow_html=True)
-            
-            # Crop Recommendations with badges
-            st.markdown('<div class="section-header">Crop Recommendations</div>', unsafe_allow_html=True)
+            # Crop Recommendations with neat tables
+            st.markdown("### 🌾 Crop Recommendations")
             recommendations = report["detailed_analysis"]["recommendations"]
             
-            st.markdown(f"""
-            <div class="recommendation-card">
-                <h4>Recommended Crops:</h4>
-                <p>Based on your soil profile and conditions, we recommend the following crops:</p>
-            </div>
-            """, unsafe_allow_html=True)
+            # Recommended crops table
+            crops_data = {
+                "Recommended Crops": recommendations['crops']
+            }
+            crops_df = pd.DataFrame(crops_data)
+            st.dataframe(crops_df, use_container_width=True, hide_index=True)
             
-            # Display crops as badges
-            crop_badges = ""
-            for crop in recommendations['crops']:
-                crop_badges += f'<span class="crop-badge">{crop.title()}</span>'
+            # Recommendation details table
+            rec_details_data = {
+                "Attribute": ["Confidence Level", "Data Source"],
+                "Value": [f"{recommendations['confidence']:.2f}", recommendations['source'].title()]
+            }
+            rec_details_df = pd.DataFrame(rec_details_data)
+            st.dataframe(rec_details_df, use_container_width=True, hide_index=True)
             
-            st.markdown(crop_badges, unsafe_allow_html=True)
-            
-            # Confidence and source info
-            col1, col2 = st.columns(2)
-            with col1:
-                st.markdown(f"""
-                <div class="recommendation-card">
-                    <strong>Confidence Level:</strong> {recommendations['confidence']:.2f}
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col2:
-                st.markdown(f"""
-                <div class="recommendation-card">
-                    <strong>Source:</strong> {recommendations['source'].title()}
-                </div>
-                """, unsafe_allow_html=True)
-            
-            # Cropping Plan with professional styling
+            # Cropping Plan with neat tables
             if report["detailed_analysis"]["cropping_plan"]:
-                st.markdown('<div class="section-header">🌾 Cropping Plan</div>', unsafe_allow_html=True)
+                st.markdown("### 📋 Cropping Plan")
                 plan = report["detailed_analysis"]["cropping_plan"]
                 
                 if "error" not in plan:
                     plan_summary = plan["summary"]
                     
-                    # Economic metrics with custom styling
-                    col1, col2, col3 = st.columns(3)
-                    
-                    with col1:
-                        st.markdown(f"""
-                        <div class="metric-card">
-                            <div class="metric-value">{plan_summary['total_yield']:.0f} kg</div>
-                            <div class="metric-label">Total Yield</div>
-                        </div>
-                        """, unsafe_allow_html=True)
-                    
-                    with col2:
-                        st.markdown(f"""
-                        <div class="metric-card">
-                            <div class="metric-value">${plan_summary['total_cost']:.0f}</div>
-                            <div class="metric-label">Total Cost</div>
-                        </div>
-                        """, unsafe_allow_html=True)
-                    
-                    with col3:
-                        profit_color = "#28a745" if plan_summary['total_profit'] > 0 else "#dc3545"
-                        st.markdown(f"""
-                        <div class="metric-card" style="background: linear-gradient(135deg, {profit_color}, {profit_color}dd);">
-                            <div class="metric-value">${plan_summary['total_profit']:.0f}</div>
-                            <div class="metric-label">Total Profit</div>
-                        </div>
-                        """, unsafe_allow_html=True)
+                    # Economic metrics table
+                    economic_data = {
+                        "Metric": ["Total Yield", "Total Cost", "Total Profit"],
+                        "Value": [
+                            f"{plan_summary['total_yield']:.0f} kg",
+                            f"${plan_summary['total_cost']:.0f}",
+                            f"${plan_summary['total_profit']:.0f}"
+                        ]
+                    }
+                    economic_df = pd.DataFrame(economic_data)
+                    st.dataframe(economic_df, use_container_width=True, hide_index=True)
             
-            # Actionable Recommendations with professional styling
-            st.markdown('<div class="section-header">Actionable Recommendations</div>', unsafe_allow_html=True)
+            # Actionable Recommendations with neat tables
+            st.markdown("### ✅ Actionable Recommendations")
             
-            for i, rec in enumerate(report["actionable_recommendations"], 1):
-                st.markdown(f"""
-                <div class="recommendation-card">
-                    <strong>{i}.</strong> {rec}
-                </div>
-                """, unsafe_allow_html=True)
+            recommendations_data = {
+                "Priority": [f"{i}" for i in range(1, len(report["actionable_recommendations"]) + 1)],
+                "Recommendation": report["actionable_recommendations"]
+            }
+            recommendations_df = pd.DataFrame(recommendations_data)
+            st.dataframe(recommendations_df, use_container_width=True, hide_index=True)
             
-            # Risk Assessment with color-coded styling
-            st.markdown('<div class="section-header">Risk Assessment</div>', unsafe_allow_html=True)
+            # Risk Assessment with neat tables
+            st.markdown("### ⚠️ Risk Assessment")
             risk_assessment = report["risk_assessment"]
             
-            col1, col2, col3 = st.columns(3)
+            # High risk factors table
+            if risk_assessment["high_risk_factors"]:
+                high_risk_data = {
+                    "High Risk Factors": risk_assessment["high_risk_factors"]
+                }
+                high_risk_df = pd.DataFrame(high_risk_data)
+                st.markdown("**🔴 High Risk Factors:**")
+                st.dataframe(high_risk_df, use_container_width=True, hide_index=True)
+            else:
+                st.success("✅ No high-risk factors identified")
             
-            with col1:
-                st.markdown("### High Risk Factors")
-                if risk_assessment["high_risk_factors"]:
-                    for risk in risk_assessment["high_risk_factors"]:
-                        st.markdown(f"""
-                        <div class="risk-high">
-                            <strong>● {risk}</strong>
-                        </div>
-                        """, unsafe_allow_html=True)
-                else:
-                    st.markdown("""
-                    <div class="risk-low">
-                        <strong>✓ No high-risk factors</strong>
-                    </div>
-                    """, unsafe_allow_html=True)
+            # Medium risk factors table
+            if risk_assessment["medium_risk_factors"]:
+                medium_risk_data = {
+                    "Medium Risk Factors": risk_assessment["medium_risk_factors"]
+                }
+                medium_risk_df = pd.DataFrame(medium_risk_data)
+                st.markdown("**🟡 Medium Risk Factors:**")
+                st.dataframe(medium_risk_df, use_container_width=True, hide_index=True)
+            else:
+                st.success("✅ No medium-risk factors identified")
             
-            with col2:
-                st.markdown("### Medium Risk Factors")
-                if risk_assessment["medium_risk_factors"]:
-                    for risk in risk_assessment["medium_risk_factors"]:
-                        st.markdown(f"""
-                        <div class="risk-medium">
-                            <strong>● {risk}</strong>
-                        </div>
-                        """, unsafe_allow_html=True)
-                else:
-                    st.markdown("""
-                    <div class="risk-low">
-                        <strong>✓ No medium-risk factors</strong>
-                    </div>
-                    """, unsafe_allow_html=True)
+            # Low risk factors table
+            if risk_assessment["low_risk_factors"]:
+                low_risk_data = {
+                    "Low Risk Factors": risk_assessment["low_risk_factors"]
+                }
+                low_risk_df = pd.DataFrame(low_risk_data)
+                st.markdown("**🟢 Low Risk Factors:**")
+                st.dataframe(low_risk_df, use_container_width=True, hide_index=True)
+            else:
+                st.info("ℹ️ No low-risk factors identified")
             
-            with col3:
-                st.markdown("### Low Risk Factors")
-                if risk_assessment["low_risk_factors"]:
-                    for risk in risk_assessment["low_risk_factors"]:
-                        st.markdown(f"""
-                        <div class="risk-low">
-                            <strong>● {risk}</strong>
-                        </div>
-                        """, unsafe_allow_html=True)
-                else:
-                    st.markdown("""
-                    <div class="risk-low">
-                        <strong>✓ No low-risk factors</strong>
-                    </div>
-                    """, unsafe_allow_html=True)
-            
-            # Mitigation Strategies
+            # Mitigation strategies table
             if risk_assessment["mitigation_strategies"]:
-                st.markdown('<div class="section-header">Mitigation Strategies</div>', unsafe_allow_html=True)
-                for i, strategy in enumerate(risk_assessment["mitigation_strategies"], 1):
-                    st.markdown(f"""
-                    <div class="recommendation-card">
-                        <strong>{i}.</strong> {strategy}
-                    </div>
-                    """, unsafe_allow_html=True)
+                mitigation_data = {
+                    "Priority": [f"{i}" for i in range(1, len(risk_assessment["mitigation_strategies"]) + 1)],
+                    "Mitigation Strategy": risk_assessment["mitigation_strategies"]
+                }
+                mitigation_df = pd.DataFrame(mitigation_data)
+                st.markdown("**🛡️ Mitigation Strategies:**")
+                st.dataframe(mitigation_df, use_container_width=True, hide_index=True)
         
         except Exception as e:
             st.error(f"Analysis failed: {str(e)}")
