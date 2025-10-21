@@ -466,7 +466,7 @@ st.set_page_config(
 
 # Compact Carousel Component
 def create_carousel():
-    """Create a compact carousel using Streamlit native components"""
+    """Create a compact carousel with integrated descriptions"""
     
     # Carousel data
     carousel_data = [
@@ -513,38 +513,33 @@ def create_carousel():
     # Get current slide
     current_slide = carousel_data[st.session_state.carousel_index]
     
-    # Create compact carousel display
+    # Create compact carousel display with integrated content
     st.markdown("### Agricultural Showcase")
     
-    # Create columns for image and content
-    col1, col2 = st.columns([3, 2])
-    
-    with col1:
-        # Display image with caption
-        st.image(
-            current_slide["image"], 
-            use_container_width=True, 
-            caption=current_slide["caption"]
-        )
-    
-    with col2:
-        # Display content in a compact card
-        st.markdown(f"""
-        <div style="padding: 1.5rem; background: linear-gradient(135deg, #f8f9fa, #e9ecef); 
-                    border-radius: 10px; height: 100%; border-left: 4px solid #4CAF50;">
-            <h4 style="color: #1e3c72; margin-bottom: 1rem; font-weight: 600; font-size: 1.1rem;">
-                {current_slide['title']}
-            </h4>
-            <p style="color: #495057; line-height: 1.5; margin-bottom: 1rem; font-size: 0.9rem;">
-                {current_slide['description']}
-            </p>
-            <p style="color: #6c757d; font-style: italic; font-size: 0.8rem; margin: 0;">
-                {current_slide['caption']}
-            </p>
+    # Create a single card with image and description integrated
+    st.markdown(f"""
+    <div style="background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
+                overflow: hidden; margin-bottom: 1rem; border: 1px solid #e9ecef;">
+        <div style="position: relative;">
+            <img src="{current_slide['image']}" style="width: 100%; height: 200px; object-fit: cover;" />
+            <div style="position: absolute; bottom: 0; left: 0; right: 0; 
+                        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8)); 
+                        color: white; padding: 1rem;">
+                <h4 style="margin: 0 0 0.5rem 0; font-size: 1.2rem; font-weight: 600;">
+                    {current_slide['title']}
+                </h4>
+                <p style="margin: 0 0 0.3rem 0; font-size: 0.9rem; opacity: 0.9;">
+                    {current_slide['description']}
+                </p>
+                <p style="margin: 0; font-size: 0.8rem; opacity: 0.8; font-style: italic;">
+                    {current_slide['caption']}
+                </p>
+            </div>
         </div>
-        """, unsafe_allow_html=True)
+    </div>
+    """, unsafe_allow_html=True)
     
-    # Navigation dots
+    # Compact navigation dots
     cols = st.columns(len(carousel_data))
     for i, col in enumerate(cols):
         with col:
@@ -552,9 +547,9 @@ def create_carousel():
                 st.session_state.carousel_index = i
                 st.rerun()
     
-    # Auto-advance timer (this will cause a rerun every 4 seconds)
+    # Auto-advance timer (this will cause a rerun every 5 seconds)
     import time
-    time.sleep(4)
+    time.sleep(5)
     st.session_state.carousel_index += 1
     st.rerun()
     
@@ -579,10 +574,6 @@ st.markdown(f"""
     </div>
 </div>
 """, unsafe_allow_html=True)
-
-# Display Carousel
-st.markdown("### Agricultural Showcase")
-create_carousel()
 
 # Initialize the advisor with GitHub models
 @st.cache_resource
@@ -748,6 +739,9 @@ st.sidebar.markdown("### Optimization Objectives")
 maximize_yield = st.sidebar.checkbox("Maximize Yield", True)
 minimize_cost = st.sidebar.checkbox("Minimize Cost", True)
 maximize_profit = st.sidebar.checkbox("Maximize Profit", True)
+
+# Display Carousel in main content area
+create_carousel()
 
 # Main content area
 if st.button("Analyze Soil & Generate Recommendations", type="primary"):
