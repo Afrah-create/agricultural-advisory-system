@@ -308,154 +308,6 @@ st.markdown("""
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
-    /* Carousel Styles */
-    .carousel-container {
-        position: relative;
-        max-width: 100%;
-        margin: 2rem auto;
-        overflow: hidden;
-        border-radius: 15px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-    }
-    
-    .carousel-slides {
-        display: flex;
-        transition: transform 0.5s ease-in-out;
-        height: 400px;
-    }
-    
-    .carousel-slide {
-        min-width: 100%;
-        position: relative;
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        align-items: flex-end;
-    }
-    
-    .carousel-content {
-        background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-        color: white;
-        padding: 2rem;
-        width: 100%;
-        text-align: center;
-    }
-    
-    .carousel-title {
-        font-size: 1.8rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    }
-    
-    .carousel-description {
-        font-size: 1rem;
-        opacity: 0.9;
-        margin-bottom: 0.5rem;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-    }
-    
-    .carousel-caption {
-        font-size: 0.9rem;
-        opacity: 0.8;
-        font-style: italic;
-    }
-    
-    .carousel-dots {
-        display: flex;
-        justify-content: center;
-        padding: 1rem;
-        gap: 0.5rem;
-    }
-    
-    .carousel-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.5);
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    
-    .carousel-dot.active {
-        background: #4CAF50;
-        transform: scale(1.2);
-    }
-    
-    .carousel-dot:hover {
-        background: rgba(255, 255, 255, 0.8);
-    }
-    
-    .carousel-nav {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background: rgba(0, 0, 0, 0.5);
-        color: white;
-        border: none;
-        padding: 1rem;
-        cursor: pointer;
-        font-size: 1.5rem;
-        transition: all 0.3s ease;
-        z-index: 10;
-    }
-    
-    .carousel-nav:hover {
-        background: rgba(0, 0, 0, 0.7);
-    }
-    
-    .carousel-nav.prev {
-        left: 0;
-        border-radius: 0 10px 10px 0;
-    }
-    
-    .carousel-nav.next {
-        right: 0;
-        border-radius: 10px 0 0 10px;
-    }
-    
-    /* Responsive carousel */
-    @media (max-width: 768px) {
-        .carousel-slides {
-            height: 300px;
-        }
-        
-        .carousel-content {
-            padding: 1.5rem;
-        }
-        
-        .carousel-title {
-            font-size: 1.4rem;
-        }
-        
-        .carousel-description {
-            font-size: 0.9rem;
-        }
-        
-        .carousel-nav {
-            padding: 0.8rem;
-            font-size: 1.2rem;
-        }
-    }
-    
-    @media (max-width: 480px) {
-        .carousel-slides {
-            height: 250px;
-        }
-        
-        .carousel-content {
-            padding: 1rem;
-        }
-        
-        .carousel-title {
-            font-size: 1.2rem;
-        }
-        
-        .carousel-description {
-            font-size: 0.8rem;
-        }
-    }
-    
     /* Hide default Streamlit header */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
@@ -542,11 +394,11 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Carousel Component
+# Carousel Component using Streamlit native elements
 def create_carousel():
-    """Create an interactive carousel with agricultural images"""
+    """Create a carousel using Streamlit native components"""
     
-    # Carousel data with images, titles, descriptions, and captions
+    # Carousel data
     carousel_data = [
         {
             "image": "images/maize.jpeg",
@@ -580,71 +432,30 @@ def create_carousel():
         }
     ]
     
-    # Generate carousel HTML
-    slides_html = ""
-    dots_html = ""
+    # Create tabs for carousel slides
+    tab_names = [f"Slide {i+1}" for i in range(len(carousel_data))]
+    tabs = st.tabs(tab_names)
     
-    for i, slide in enumerate(carousel_data):
-        slides_html += f"""
-        <div class="carousel-slide" style="background-image: url('{slide['image']}');">
-            <div class="carousel-content">
-                <h3 class="carousel-title">{slide['title']}</h3>
-                <p class="carousel-description">{slide['description']}</p>
-                <p class="carousel-caption">{slide['caption']}</p>
-            </div>
-        </div>
-        """
-        
-        active_class = "active" if i == 0 else ""
-        dots_html += f'<span class="carousel-dot {active_class}" onclick="showSlide({i})"></span>'
-    
-    carousel_html = f"""
-    <div class="carousel-container">
-        <div class="carousel-slides" id="carouselSlides">
-            {slides_html}
-        </div>
-        <button class="carousel-nav prev" onclick="changeSlide(-1)">‹</button>
-        <button class="carousel-nav next" onclick="changeSlide(1)">›</button>
-        <div class="carousel-dots">
-            {dots_html}
-        </div>
-    </div>
-    
-    <script>
-        let currentSlide = 0;
-        const totalSlides = {len(carousel_data)};
-        
-        function showSlide(n) {{
-            currentSlide = n;
-            updateCarousel();
-        }}
-        
-        function changeSlide(direction) {{
-            currentSlide += direction;
-            if (currentSlide >= totalSlides) currentSlide = 0;
-            if (currentSlide < 0) currentSlide = totalSlides - 1;
-            updateCarousel();
-        }}
-        
-        function updateCarousel() {{
-            const slides = document.getElementById('carouselSlides');
-            slides.style.transform = `translateX(-${{currentSlide * 100}}%)`;
+    for i, (tab, slide) in enumerate(zip(tabs, carousel_data)):
+        with tab:
+            # Create two columns for image and content
+            col1, col2 = st.columns([2, 1])
             
-            // Update dots
-            const dots = document.querySelectorAll('.carousel-dot');
-            dots.forEach((dot, index) => {{
-                dot.classList.toggle('active', index === currentSlide);
-            }});
-        }}
-        
-        // Auto-slide every 5 seconds
-        setInterval(() => {{
-            changeSlide(1);
-        }}, 5000);
-    </script>
-    """
+            with col1:
+                # Display image
+                st.image(slide["image"], use_column_width=True, caption=slide["caption"])
+            
+            with col2:
+                # Display content
+                st.markdown(f"""
+                <div style="padding: 2rem; background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 10px; height: 100%;">
+                    <h3 style="color: #1e3c72; margin-bottom: 1rem; font-weight: 600;">{slide['title']}</h3>
+                    <p style="color: #495057; line-height: 1.6; margin-bottom: 1rem;">{slide['description']}</p>
+                    <p style="color: #6c757d; font-style: italic; font-size: 0.9rem;">{slide['caption']}</p>
+                </div>
+                """, unsafe_allow_html=True)
     
-    return carousel_html
+    return True
 
 # Fixed Header with Dynamic Date
 from datetime import datetime
@@ -667,7 +478,8 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # Display Carousel
-st.markdown(create_carousel(), unsafe_allow_html=True)
+st.markdown("### Agricultural Showcase")
+create_carousel()
 
 # Initialize the advisor with GitHub models
 @st.cache_resource
