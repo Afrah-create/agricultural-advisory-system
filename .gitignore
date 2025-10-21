@@ -1,0 +1,35 @@
+# Model cache
+model_cache/
+*.pkl
+*.joblib
+
+# Large model files (use Git LFS instead)
+*.bin
+*.safetensors
+
+# Temporary files
+*.tmp
+*.temp
+
+# Cache directories
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment files
+.env
+.venv/
+venv/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/

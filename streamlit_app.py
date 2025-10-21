@@ -184,7 +184,7 @@ def initialize_model_manager():
                 return create_model_manager_from_config("github_config.json")
             else:
                 # Use default configuration
-                return ModelManager("your-username/crop-recommendation-models")
+                return ModelManager("Afrah-create/agricultural-advisory-system")
         except Exception as e:
             st.error(f"Failed to initialize GitHub model manager: {e}")
             return None
@@ -237,11 +237,11 @@ except ImportError:
                 },
                 "detailed_analysis": {
                     "soil_analysis": {"strengths": ["Good pH"], "weaknesses": ["Low organic matter"]},
-                    "recommendations": {"crops": ["maize", "beans"], "confidence": 0.8},
+                    "recommendations": {"crops": ["maize", "beans"], "confidence": 0.8, "source": "github_models"},
                     "cropping_plan": {"summary": {"total_yield": 5000, "total_cost": 3000, "total_profit": 2000}}
                 },
                 "actionable_recommendations": ["Apply organic matter", "Plant maize and beans"],
-                "risk_assessment": {"high_risk_factors": [], "medium_risk_factors": ["Weather variability"]}
+                "risk_assessment": {"high_risk_factors": [], "medium_risk_factors": ["Weather variability"], "low_risk_factors": [], "mitigation_strategies": []}
             }
 
 # Page configuration
@@ -309,7 +309,7 @@ if GITHUB_MODELS_AVAILABLE:
     # GitHub repository configuration
     github_repo = st.sidebar.text_input(
         "GitHub Repository", 
-        value="your-username/crop-recommendation-models",
+        value="Afrah-create/agricultural-advisory-system",
         help="Format: owner/repository-name"
     )
     
@@ -667,46 +667,6 @@ if st.button("🔬 Analyze Soil & Generate Recommendations", type="primary"):
                             <div class="metric-label">Total Profit</div>
                         </div>
                         """, unsafe_allow_html=True)
-                    
-                    # Crop Details with expandable cards
-                    st.markdown("### 📋 Crop Details")
-                    for crop_detail in plan["crop_details"]:
-                        with st.expander(f"🌾 {crop_detail['crop'].title()}", expanded=False):
-                            col1, col2 = st.columns(2)
-                            with col1:
-                                st.markdown(f"""
-                                <div class="recommendation-card">
-                                    <strong>Area:</strong> {crop_detail['area_ha']:.1f} hectares<br>
-                                    <strong>Expected Yield:</strong> {crop_detail['expected_yield_kg']:.0f} kg
-                                </div>
-                                """, unsafe_allow_html=True)
-                            with col2:
-                                st.markdown(f"""
-                                <div class="recommendation-card">
-                                    <strong>Expected Revenue:</strong> ${crop_detail['expected_revenue_usd']:.0f}<br>
-                                    <strong>Labor Required:</strong> {crop_detail['labor_requirement_days']:.0f} days
-                                </div>
-                                """, unsafe_allow_html=True)
-                    
-                    # Calendar with professional styling
-                    st.markdown("### 📅 Seasonal Calendar")
-                    for calendar_entry in plan["calendar"]:
-                        with st.expander(f"📅 {calendar_entry['crop'].title()} Calendar", expanded=False):
-                            for activity in calendar_entry['activities']:
-                                st.markdown(f"""
-                                <div class="recommendation-card">
-                                    <strong>{activity['activity']}:</strong> {activity['timing']}<br>
-                                    <em>{activity['description']}</em>
-                                </div>
-                                """, unsafe_allow_html=True)
-                
-                else:
-                    st.markdown(f"""
-                    <div class="warning-card">
-                        <h4>⚠️ Cropping Plan Error</h4>
-                        <p>{plan['error']}</p>
-                    </div>
-                    """, unsafe_allow_html=True)
             
             # Actionable Recommendations with professional styling
             st.markdown('<div class="section-header">💡 Actionable Recommendations</div>', unsafe_allow_html=True)
@@ -793,8 +753,8 @@ st.markdown("""
     <p>Evidence-backed crop recommendations and cropping plans for smallholder farmers</p>
     <div style="margin-top: 1rem;">
         <span style="margin: 0 1rem;">Built with Streamlit</span>
-        <span style="margin: 0 1rem;">Powered by Graph Reasoning LLM</span>
-        <span style="margin: 0 1rem;">Version 1.0</span>
+        <span style="margin: 0 1rem;">Powered by GitHub Models</span>
+        <span style="margin: 0 1rem;">Version 2.0</span>
     </div>
     <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
         © 2024 Agricultural Advisory System. All rights reserved.

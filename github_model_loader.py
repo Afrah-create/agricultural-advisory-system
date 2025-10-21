@@ -255,7 +255,7 @@ class GitHubModelLoader:
             Model information dictionary, or None if failed
         """
         try:
-            url = f"{self.base_url}/contents/models/{model_name}"
+            url = f"{self.base_url}/contents/{model_name}"
             response = requests.get(url, headers=self._get_headers())
             response.raise_for_status()
             
@@ -388,10 +388,10 @@ def create_model_manager_from_config(config_file: str = "github_config.json") ->
         )
     except FileNotFoundError:
         logger.warning(f"Configuration file {config_file} not found, using defaults")
-        return ModelManager("your-username/your-repo")
+        return ModelManager("Afrah-create/agricultural-advisory-system")
     except Exception as e:
         logger.error(f"Error loading configuration: {e}")
-        return ModelManager("your-username/your-repo")
+        return ModelManager("Afrah-create/agricultural-advisory-system")
 
 
 if __name__ == "__main__":
@@ -400,7 +400,7 @@ if __name__ == "__main__":
     print("=" * 40)
     
     # Initialize model manager
-    manager = ModelManager("your-username/crop-recommendation-models")
+    manager = ModelManager("Afrah-create/agricultural-advisory-system")
     
     # List available models
     available_models = manager.loader.list_available_models()
