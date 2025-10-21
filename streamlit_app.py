@@ -71,55 +71,7 @@ st.markdown("""
         text-align: right;
     }
     
-    /* Header Carousel Styles */
-    .header-carousel {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        height: 100%;
-        overflow: hidden;
-        z-index: -1;
-    }
-    
-    .carousel-slides-container {
-        display: flex;
-        height: 100%;
-        transition: transform 0.8s ease-in-out;
-    }
-    
-    .carousel-slide-item {
-        min-width: 100%;
-        height: 100%;
-        background-size: cover;
-        background-position: center;
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    .carousel-slide-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, rgba(30, 60, 114, 0.8), rgba(42, 82, 152, 0.8));
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        text-align: center;
-        padding: 0 2rem;
-    }
-    
-    .carousel-slide-text {
-        font-size: 0.8rem;
-        font-weight: 500;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-        opacity: 0.9;
-    }
+    /* Simple rotating text banner - no complex carousel needed */
     
     /* Main content spacing - Adjusted for header carousel */
     .main .block-container {
@@ -370,10 +322,6 @@ st.markdown("""
             font-size: 0.6rem;
         }
         
-        .carousel-slide-text {
-            font-size: 0.7rem;
-        }
-        
         .main .block-container {
             padding-top: 6rem !important;
             padding-bottom: 8rem !important;
@@ -604,32 +552,17 @@ def create_carousel():
     
     return True
 
-# Header Carousel Component
+# Simple Header Carousel Component
 def create_header_carousel():
-    """Create a horizontal sliding carousel in the header"""
+    """Create a simple rotating text banner in the header"""
     
     # Carousel data for header
-    carousel_data = [
-        {
-            "image": "images/maize.jpeg",
-            "text": "Maize Cultivation - High-yield varieties for Uganda"
-        },
-        {
-            "image": "images/carrot.jpeg", 
-            "text": "Carrot Farming - Nutrient-rich cultivation techniques"
-        },
-        {
-            "image": "images/green-paper (1).jpeg",
-            "text": "Sustainable Agriculture - Eco-friendly farming practices"
-        },
-        {
-            "image": "images/red-paper (2).jpeg",
-            "text": "Crop Research - Advanced agricultural development"
-        },
-        {
-            "image": "images/red-paper (3).jpeg",
-            "text": "Farm Technology - Modern tools for productivity"
-        }
+    carousel_messages = [
+        "Maize Cultivation - High-yield varieties for Uganda",
+        "Carrot Farming - Nutrient-rich cultivation techniques", 
+        "Sustainable Agriculture - Eco-friendly farming practices",
+        "Crop Research - Advanced agricultural development",
+        "Farm Technology - Modern tools for productivity"
     ]
     
     # Initialize session state for header carousel
@@ -637,49 +570,23 @@ def create_header_carousel():
         st.session_state.header_carousel_index = 0
     
     # Auto-advance header carousel
-    if st.session_state.header_carousel_index >= len(carousel_data):
+    if st.session_state.header_carousel_index >= len(carousel_messages):
         st.session_state.header_carousel_index = 0
     
-    # Get current slide
-    current_slide = carousel_data[st.session_state.header_carousel_index]
+    # Get current message
+    current_message = carousel_messages[st.session_state.header_carousel_index]
     
-    # Generate carousel HTML
-    slides_html = ""
-    for i, slide in enumerate(carousel_data):
-        slides_html += f"""
-        <div class="carousel-slide-item" style="background-image: url('{slide['image']}');">
-            <div class="carousel-slide-overlay">
-                <div class="carousel-slide-text">{slide['text']}</div>
-            </div>
-        </div>
-        """
-    
-    carousel_html = f"""
-    <div class="header-carousel">
-        <div class="carousel-slides-container" id="headerCarouselSlides" style="transform: translateX(-{st.session_state.header_carousel_index * 100}%);">
-            {slides_html}
+    # Return simple HTML for rotating text
+    return f"""
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+                background: linear-gradient(135deg, rgba(30, 60, 114, 0.9), rgba(42, 82, 152, 0.9));
+                display: flex; align-items: center; justify-content: center; z-index: -1;">
+        <div style="color: white; font-size: 0.8rem; font-weight: 500; text-align: center; 
+                    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); opacity: 0.8; padding: 0 2rem;">
+            {current_message}
         </div>
     </div>
-    
-    <script>
-        // Auto-advance header carousel every 3 seconds
-        setTimeout(() => {{
-            const currentIndex = {st.session_state.header_carousel_index};
-            const nextIndex = (currentIndex + 1) % {len(carousel_data)};
-            
-            // Trigger Streamlit rerun with new index
-            const event = new CustomEvent('header-carousel-advance', {{ detail: {{ nextIndex }} }});
-            window.dispatchEvent(event);
-        }}, 3000);
-        
-        // Listen for carousel advance events
-        window.addEventListener('header-carousel-advance', (event) => {{
-            // This will be handled by Streamlit's session state
-        }});
-    </script>
     """
-    
-    return carousel_html
 
 # Fixed Header with Dynamic Date and Carousel
 from datetime import datetime
