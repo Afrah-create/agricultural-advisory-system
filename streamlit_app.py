@@ -22,94 +22,67 @@ except ImportError:
     GITHUB_MODELS_AVAILABLE = False
     st.warning("GitHub model loader not available. Using local models only.")
 
-# Custom CSS for compact laptop-friendly styling
+# Custom CSS for responsive scrollable styling
 st.markdown("""
 <style>
-    /* Compact styling for laptop screens */
+    /* Responsive styling for larger devices */
     .main .block-container {
-        padding-top: 0.5rem;
-        padding-bottom: 1rem;
-        max-width: 100%;
-        height: 100vh;
-        overflow: hidden;
+        padding-top: 1rem;
+        padding-bottom: 2rem;
+        max-width: 1200px;
     }
     
-    /* Sidebar styling with scroll */
+    /* Sidebar styling with better spacing */
     .sidebar .sidebar-content {
         background: linear-gradient(180deg, #f8f9fa, #e9ecef);
-        padding-top: 0.5rem;
-        height: 100vh;
-        overflow-y: auto;
+        padding-top: 1rem;
     }
     
     .sidebar .sidebar-content .block-container {
-        padding-top: 0.3rem;
-        padding-left: 0.8rem;
-        padding-right: 0.8rem;
+        padding-top: 0.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
     
-    /* Compact header */
+    /* Professional header */
     .main-header {
-        padding: 1rem;
-        margin-bottom: 1rem;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
     }
     
     .main-header h1 {
-        font-size: 1.5rem;
-        margin-bottom: 0.3rem;
+        font-size: 1.8rem;
+        margin-bottom: 0.5rem;
     }
     
     .main-header p {
-        font-size: 0.9rem;
-        margin-bottom: 0.3rem;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
     }
     
-    /* Compact sections */
+    /* Better section spacing */
     .section-header {
-        padding: 0.8rem;
-        margin: 1rem 0 0.8rem 0;
-        font-size: 1.1rem;
-    }
-    
-    /* Compact cards */
-    .metric-card {
         padding: 1rem;
-        margin: 0.3rem;
-        min-height: 80px;
+        margin: 1.5rem 0 1rem 0;
+        font-size: 1.2rem;
     }
     
-    .metric-value {
-        font-size: 1.8rem;
-        margin-bottom: 0.3rem;
-    }
-    
-    .metric-label {
-        font-size: 0.8rem;
-    }
-    
-    /* Compact buttons */
-    .stButton > button {
-        padding: 0.6rem 1.5rem;
-        font-size: 0.9rem;
-        margin: 0.5rem 0;
-    }
-    
-    /* Compact sidebar elements */
+    /* Improved sidebar elements */
     .sidebar .stSlider {
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.5rem;
     }
     
     .sidebar .stSelectbox {
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.5rem;
     }
     
     .sidebar .stCheckbox {
-        margin-bottom: 0.2rem;
+        margin-bottom: 0.3rem;
     }
     
     .sidebar .stMarkdown h3 {
-        font-size: 0.9rem;
-        margin-bottom: 0.3rem;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
     }
     
     /* Hide default Streamlit header */
@@ -117,26 +90,25 @@ st.markdown("""
     footer {visibility: hidden;}
     header {visibility: hidden;}
     
-    /* Ensure main content doesn't scroll */
-    .main {
-        height: 100vh;
-        overflow: hidden;
-    }
-    
-    /* Compact footer */
+    /* Professional footer */
     .footer {
-        padding: 1rem;
-        margin-top: 1rem;
+        padding: 1.5rem;
+        margin-top: 2rem;
     }
     
     .footer h3 {
-        font-size: 0.9rem;
-        margin-bottom: 0.3rem;
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
     }
     
     .footer p {
-        font-size: 0.8rem;
-        margin: 0.1rem 0;
+        font-size: 0.9rem;
+        margin: 0.2rem 0;
+    }
+    
+    /* Better spacing for main content */
+    .main .block-container > div {
+        margin-bottom: 1rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -223,18 +195,18 @@ st.set_page_config(
 # Professional Agricultural Advisory System
 from datetime import datetime
 
-# Compact App Header
+# Professional App Header
 st.markdown("""
 <div style="background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; 
-            padding: 1rem; border-radius: 8px; margin-bottom: 1rem; text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
-    <h1 style="margin: 0 0 0.3rem 0; font-size: 1.5rem; font-weight: 600;">
+            padding: 1.5rem; border-radius: 10px; margin-bottom: 1.5rem; text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);">
+    <h1 style="margin: 0 0 0.5rem 0; font-size: 1.8rem; font-weight: 600;">
         Agricultural Advisory System
     </h1>
-    <p style="margin: 0 0 0.5rem 0; font-size: 0.9rem; opacity: 0.9;">
+    <p style="margin: 0 0 0.8rem 0; font-size: 1rem; opacity: 0.9;">
         Evidence-backed crop recommendations for Uganda
     </p>
-    <p style="margin: 0; font-size: 0.8rem; opacity: 0.8;">
+    <p style="margin: 0; font-size: 0.9rem; opacity: 0.8;">
         {current_date} • {current_time}
     </p>
 </div>
@@ -411,46 +383,43 @@ maximize_yield = st.sidebar.checkbox("Maximize Yield", True)
 minimize_cost = st.sidebar.checkbox("Minimize Cost", True)
 maximize_profit = st.sidebar.checkbox("Maximize Profit", True)
 
-# Compact Main Content Section
-col1, col2 = st.columns([2, 1])
+# Main Content Section
+st.markdown("### Soil Analysis & Recommendations")
 
-with col1:
-    st.markdown("### Soil Analysis & Recommendations")
-    
-    # Analysis button
-    if st.button("Analyze Soil & Generate Recommendations", type="primary"):
-        
-        # Prepare soil data
-        soil_data = {
-        "pH": ph,
-        "organic_matter": organic_matter,
-        "nitrogen": nitrogen,
-        "phosphorus": phosphorus,
-        "potassium": potassium,
-        "texture": texture,
-        "drainage": drainage,
-        "location": "Uganda"
-    }
-    
-    # Prepare constraints
-    constraints = {
-        "total_area": total_area,
-        "budget": budget,
-        "labor_availability": labor_availability,
-        "water_availability": water_availability,
-        "fertilizer_nitrogen": fertilizer_nitrogen,
-        "fertilizer_phosphorus": fertilizer_phosphorus,
-        "fertilizer_potassium": fertilizer_potassium
-    }
-    
-    # Prepare objectives
-    objectives = []
-    if maximize_yield:
-        objectives.append("maximize_yield")
-    if minimize_cost:
-        objectives.append("minimize_cost")
-    if maximize_profit:
-        objectives.append("maximize_profit")
+# Prepare soil data (moved outside button for proper scope)
+soil_data = {
+    "pH": ph,
+    "organic_matter": organic_matter,
+    "nitrogen": nitrogen,
+    "phosphorus": phosphorus,
+    "potassium": potassium,
+    "texture": texture,
+    "drainage": drainage,
+    "location": "Uganda"
+}
+
+# Prepare constraints
+constraints = {
+    "total_area": total_area,
+    "budget": budget,
+    "labor_availability": labor_availability,
+    "water_availability": water_availability,
+    "fertilizer_nitrogen": fertilizer_nitrogen,
+    "fertilizer_phosphorus": fertilizer_phosphorus,
+    "fertilizer_potassium": fertilizer_potassium
+}
+
+# Prepare objectives
+objectives = []
+if maximize_yield:
+    objectives.append("maximize_yield")
+if minimize_cost:
+    objectives.append("minimize_cost")
+if maximize_profit:
+    objectives.append("maximize_profit")
+
+# Analysis button
+if st.button("Analyze Soil & Generate Recommendations", type="primary"):
     
     # Generate comprehensive analysis
     with st.spinner("Analyzing soil and generating recommendations..."):
@@ -610,34 +579,46 @@ with col1:
             st.error(f"Analysis failed: {str(e)}")
             st.write("Please check your inputs and try again.")
 
-with col2:
-    st.markdown("### Quick Info")
-    st.info("""
-    **System Status:** All models loaded successfully
+# Information Panel
+st.markdown("---")
+st.markdown("### System Information")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("**System Status:**")
+    st.success("✓ All models loaded successfully")
     
-    **Available Features:**
+    st.markdown("**Available Features:**")
+    st.info("""
     - Soil analysis
-    - Crop recommendations
+    - Crop recommendations  
     - Optimization planning
     - Risk assessment
     """)
-    
-    st.markdown("### Recent Activity")
+
+with col2:
+    st.markdown("**Recent Activity:**")
     st.success("✓ System initialized")
     st.success("✓ Models loaded")
     st.info("ℹ Ready for analysis")
+    
+    st.markdown("**Quick Stats:**")
+    st.metric("Soil Parameters", "8")
+    st.metric("Farm Constraints", "7")
+    st.metric("Optimization Goals", f"{len(objectives)}")
 
-# Compact Footer
+# Professional Footer
 st.markdown("""
 <div class="footer">
     <h3>Agricultural Advisory System for Uganda</h3>
     <p>Evidence-backed crop recommendations for smallholder farmers</p>
-    <div style="margin-top: 0.5rem;">
-        <span style="margin: 0 0.5rem; font-size: 0.8rem;">Built with Streamlit</span>
-        <span style="margin: 0 0.5rem; font-size: 0.8rem;">Powered by GitHub Models</span>
-        <span style="margin: 0 0.5rem; font-size: 0.8rem;">Version 2.0</span>
+    <div style="margin-top: 1rem;">
+        <span style="margin: 0 1rem; font-size: 0.9rem;">Built with Streamlit</span>
+        <span style="margin: 0 1rem; font-size: 0.9rem;">Powered by GitHub Models</span>
+        <span style="margin: 0 1rem; font-size: 0.9rem;">Version 2.0</span>
     </div>
-    <p style="margin-top: 0.5rem; font-size: 0.8rem; opacity: 0.8;">
+    <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">
         © 2024 Agricultural Advisory System. All rights reserved.
     </p>
 </div>
