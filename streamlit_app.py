@@ -26,84 +26,110 @@ except ImportError:
 st.markdown("""
 <style>
     .main-header {
-        background: linear-gradient(90deg, #2E8B57, #32CD32);
-        padding: 2rem;
-        border-radius: 10px;
+        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        padding: 3rem 2rem;
+        border-radius: 12px;
         text-align: center;
         margin-bottom: 2rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .main-header h1 {
         color: white;
         margin: 0;
-        font-size: 2.5rem;
-        font-weight: 700;
+        font-size: 2.8rem;
+        font-weight: 300;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
     
     .main-header p {
-        color: #f0f8ff;
-        margin: 0.5rem 0 0 0;
-        font-size: 1.1rem;
+        color: #e8f4fd;
+        margin: 1rem 0 0 0;
+        font-size: 1.2rem;
+        font-weight: 300;
+        opacity: 0.9;
     }
     
     .metric-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 1.5rem;
-        border-radius: 10px;
+        padding: 2rem 1.5rem;
+        border-radius: 12px;
         color: white;
         text-align: center;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         margin: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .metric-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     }
     
     .metric-value {
-        font-size: 2rem;
-        font-weight: bold;
+        font-size: 2.2rem;
+        font-weight: 600;
         margin-bottom: 0.5rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
     
     .metric-label {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         opacity: 0.9;
+        font-weight: 400;
+        letter-spacing: 0.5px;
     }
     
     .section-header {
-        background: linear-gradient(90deg, #4CAF50, #45a049);
+        background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
         color: white;
-        padding: 1rem;
-        border-radius: 8px;
-        margin: 1.5rem 0 1rem 0;
-        font-size: 1.3rem;
-        font-weight: 600;
+        padding: 1.2rem;
+        border-radius: 10px;
+        margin: 2rem 0 1.5rem 0;
+        font-size: 1.4rem;
+        font-weight: 500;
         text-align: center;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        letter-spacing: 0.5px;
     }
     
     .recommendation-card {
-        background: #f8f9fa;
+        background: #ffffff;
         border-left: 4px solid #28a745;
-        padding: 1rem;
-        margin: 0.5rem 0;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        margin: 0.8rem 0;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e9ecef;
+        transition: box-shadow 0.3s ease;
+    }
+    
+    .recommendation-card:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
     }
     
     .warning-card {
-        background: #fff3cd;
-        border-left: 4px solid #ffc107;
-        padding: 1rem;
-        margin: 0.5rem 0;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background: #fff8e1;
+        border-left: 4px solid #ff9800;
+        padding: 1.5rem;
+        margin: 0.8rem 0;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        border: 1px solid #ffe0b2;
     }
     
     .success-card {
-        background: #d4edda;
-        border-left: 4px solid #28a745;
-        padding: 1rem;
-        margin: 0.5rem 0;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background: #e8f5e8;
+        border-left: 4px solid #4caf50;
+        padding: 1.5rem;
+        margin: 0.8rem 0;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        border: 1px solid #c8e6c9;
     }
     
     .sidebar .sidebar-content {
@@ -111,64 +137,113 @@ st.markdown("""
     }
     
     .stButton > button {
-        background: linear-gradient(90deg, #28a745, #20c997);
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
         color: white;
         border: none;
-        border-radius: 25px;
-        padding: 0.75rem 2rem;
-        font-weight: 600;
-        font-size: 1.1rem;
+        border-radius: 8px;
+        padding: 0.8rem 2rem;
+        font-weight: 500;
+        font-size: 1rem;
         transition: all 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        letter-spacing: 0.5px;
     }
     
     .stButton > button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
     }
     
     .footer {
-        background: linear-gradient(90deg, #343a40, #495057);
+        background: linear-gradient(135deg, #343a40 0%, #495057 100%);
         color: white;
-        padding: 1.5rem;
+        padding: 2rem;
         text-align: center;
-        border-radius: 10px;
-        margin-top: 2rem;
+        border-radius: 12px;
+        margin-top: 3rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .footer h3 {
+        font-weight: 300;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
     }
     
     .crop-badge {
         background: #e3f2fd;
         color: #1976d2;
-        padding: 0.5rem 1rem;
-        border-radius: 20px;
+        padding: 0.6rem 1.2rem;
+        border-radius: 25px;
         display: inline-block;
-        margin: 0.25rem;
+        margin: 0.3rem;
         font-weight: 500;
         border: 2px solid #bbdefb;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease;
+    }
+    
+    .crop-badge:hover {
+        transform: translateY(-1px);
     }
     
     .risk-high {
         background: #ffebee;
         color: #c62828;
-        padding: 0.5rem;
-        border-radius: 5px;
+        padding: 1rem;
+        border-radius: 8px;
         border-left: 4px solid #f44336;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin: 0.5rem 0;
     }
     
     .risk-medium {
         background: #fff8e1;
         color: #f57c00;
-        padding: 0.5rem;
-        border-radius: 5px;
+        padding: 1rem;
+        border-radius: 8px;
         border-left: 4px solid #ff9800;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin: 0.5rem 0;
     }
     
     .risk-low {
         background: #e8f5e8;
         color: #2e7d32;
-        padding: 0.5rem;
-        border-radius: 5px;
+        padding: 1rem;
+        border-radius: 8px;
         border-left: 4px solid #4caf50;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin: 0.5rem 0;
+    }
+    
+    /* Sidebar styling improvements */
+    .sidebar .sidebar-content .block-container {
+        padding-top: 1rem;
+    }
+    
+    /* Input styling */
+    .stSlider > div > div > div > div {
+        background: linear-gradient(90deg, #4CAF50, #45a049);
+    }
+    
+    .stSelectbox > div > div {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+    }
+    
+    /* Text improvements */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    /* Better spacing */
+    .main .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -247,7 +322,7 @@ except ImportError:
 # Page configuration
 st.set_page_config(
     page_title="Agricultural Advisory System",
-    page_icon="🌾",
+    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -255,7 +330,7 @@ st.set_page_config(
 # Professional Header
 st.markdown("""
 <div class="main-header">
-    <h1>🌾 Agricultural Advisory System</h1>
+    <h1>Agricultural Advisory System</h1>
     <p>Evidence-backed crop recommendations and cropping plans for smallholder farmers in Uganda</p>
 </div>
 """, unsafe_allow_html=True)
