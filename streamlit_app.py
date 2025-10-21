@@ -25,7 +25,7 @@ except ImportError:
 # Custom CSS for professional styling
 st.markdown("""
 <style>
-    /* Fixed Header - Very Compact */
+    /* Header with Integrated Carousel */
     .fixed-header {
         position: fixed;
         top: 0;
@@ -33,7 +33,7 @@ st.markdown("""
         right: 0;
         z-index: 1000;
         background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        padding: 0.8rem 1rem;
+        padding: 0.6rem 1rem;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
@@ -49,7 +49,7 @@ st.markdown("""
     .header-title {
         color: white;
         margin: 0;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         font-weight: 600;
         letter-spacing: 0.3px;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -58,22 +58,72 @@ st.markdown("""
     .header-subtitle {
         color: #e8f4fd;
         margin: 0.1rem 0 0 0;
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         font-weight: 300;
         opacity: 0.9;
     }
     
     .header-date {
         color: #e8f4fd;
-        font-size: 0.7rem;
+        font-size: 0.65rem;
         font-weight: 300;
         opacity: 0.8;
         text-align: right;
     }
     
-    /* Main content spacing - Very Reduced */
+    /* Header Carousel Styles */
+    .header-carousel {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+    }
+    
+    .carousel-slides-container {
+        display: flex;
+        height: 100%;
+        transition: transform 0.8s ease-in-out;
+    }
+    
+    .carousel-slide-item {
+        min-width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .carousel-slide-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(30, 60, 114, 0.8), rgba(42, 82, 152, 0.8));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-align: center;
+        padding: 0 2rem;
+    }
+    
+    .carousel-slide-text {
+        font-size: 0.8rem;
+        font-weight: 500;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        opacity: 0.9;
+    }
+    
+    /* Main content spacing - Adjusted for header carousel */
     .main .block-container {
-        padding-top: 4.5rem !important;
+        padding-top: 5rem !important;
         padding-bottom: 2rem;
         max-width: 1200px;
     }
@@ -235,10 +285,10 @@ st.markdown("""
         background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
     }
     
-    /* Sidebar improvements - Very Compact */
+    /* Sidebar improvements - Adjusted for header carousel */
     .sidebar .sidebar-content {
         background: linear-gradient(180deg, #f8f9fa, #e9ecef);
-        padding-top: 4.5rem;
+        padding-top: 5rem;
     }
     
     .sidebar .sidebar-content .block-container {
@@ -309,15 +359,19 @@ st.markdown("""
         .header-content {
             flex-direction: column;
             text-align: center;
-            gap: 0.3rem;
+            gap: 0.2rem;
         }
         
         .header-title {
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         
         .header-subtitle {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
+        }
+        
+        .carousel-slide-text {
+            font-size: 0.7rem;
         }
         
         .main .block-container {
@@ -550,13 +604,91 @@ def create_carousel():
     
     return True
 
-# Fixed Header with Dynamic Date
+# Header Carousel Component
+def create_header_carousel():
+    """Create a horizontal sliding carousel in the header"""
+    
+    # Carousel data for header
+    carousel_data = [
+        {
+            "image": "images/maize.jpeg",
+            "text": "Maize Cultivation - High-yield varieties for Uganda"
+        },
+        {
+            "image": "images/carrot.jpeg", 
+            "text": "Carrot Farming - Nutrient-rich cultivation techniques"
+        },
+        {
+            "image": "images/green-paper (1).jpeg",
+            "text": "Sustainable Agriculture - Eco-friendly farming practices"
+        },
+        {
+            "image": "images/red-paper (2).jpeg",
+            "text": "Crop Research - Advanced agricultural development"
+        },
+        {
+            "image": "images/red-paper (3).jpeg",
+            "text": "Farm Technology - Modern tools for productivity"
+        }
+    ]
+    
+    # Initialize session state for header carousel
+    if 'header_carousel_index' not in st.session_state:
+        st.session_state.header_carousel_index = 0
+    
+    # Auto-advance header carousel
+    if st.session_state.header_carousel_index >= len(carousel_data):
+        st.session_state.header_carousel_index = 0
+    
+    # Get current slide
+    current_slide = carousel_data[st.session_state.header_carousel_index]
+    
+    # Generate carousel HTML
+    slides_html = ""
+    for i, slide in enumerate(carousel_data):
+        slides_html += f"""
+        <div class="carousel-slide-item" style="background-image: url('{slide['image']}');">
+            <div class="carousel-slide-overlay">
+                <div class="carousel-slide-text">{slide['text']}</div>
+            </div>
+        </div>
+        """
+    
+    carousel_html = f"""
+    <div class="header-carousel">
+        <div class="carousel-slides-container" id="headerCarouselSlides" style="transform: translateX(-{st.session_state.header_carousel_index * 100}%);">
+            {slides_html}
+        </div>
+    </div>
+    
+    <script>
+        // Auto-advance header carousel every 3 seconds
+        setTimeout(() => {{
+            const currentIndex = {st.session_state.header_carousel_index};
+            const nextIndex = (currentIndex + 1) % {len(carousel_data)};
+            
+            // Trigger Streamlit rerun with new index
+            const event = new CustomEvent('header-carousel-advance', {{ detail: {{ nextIndex }} }});
+            window.dispatchEvent(event);
+        }}, 3000);
+        
+        // Listen for carousel advance events
+        window.addEventListener('header-carousel-advance', (event) => {{
+            // This will be handled by Streamlit's session state
+        }});
+    </script>
+    """
+    
+    return carousel_html
+
+# Fixed Header with Dynamic Date and Carousel
 from datetime import datetime
 current_date = datetime.now().strftime("%B %d, %Y")
 current_time = datetime.now().strftime("%I:%M %p")
 
 st.markdown(f"""
 <div class="fixed-header">
+    {create_header_carousel()}
     <div class="header-content">
         <div>
             <h1 class="header-title">Agricultural Advisory System</h1>
@@ -569,6 +701,12 @@ st.markdown(f"""
     </div>
 </div>
 """, unsafe_allow_html=True)
+
+# Auto-advance header carousel
+import time
+time.sleep(3)
+st.session_state.header_carousel_index += 1
+st.rerun()
 
 # Initialize the advisor with GitHub models
 @st.cache_resource
@@ -735,8 +873,7 @@ maximize_yield = st.sidebar.checkbox("Maximize Yield", True)
 minimize_cost = st.sidebar.checkbox("Minimize Cost", True)
 maximize_profit = st.sidebar.checkbox("Maximize Profit", True)
 
-# Display Carousel in main content area
-create_carousel()
+# Carousel moved to header - no longer needed in main content
 
 # Main content area
 if st.button("Analyze Soil & Generate Recommendations", type="primary"):
