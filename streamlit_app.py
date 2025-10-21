@@ -25,7 +25,7 @@ except ImportError:
 # Custom CSS for professional styling
 st.markdown("""
 <style>
-    /* Fixed Header - Compact */
+    /* Fixed Header - Very Compact */
     .fixed-header {
         position: fixed;
         top: 0;
@@ -33,8 +33,8 @@ st.markdown("""
         right: 0;
         z-index: 1000;
         background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        padding: 1rem 1.5rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        padding: 0.8rem 1rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
@@ -49,40 +49,31 @@ st.markdown("""
     .header-title {
         color: white;
         margin: 0;
-        font-size: 1.4rem;
-        font-weight: 500;
-        letter-spacing: 0.5px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 300px;
     }
     
     .header-subtitle {
         color: #e8f4fd;
-        margin: 0.2rem 0 0 0;
-        font-size: 0.8rem;
+        margin: 0.1rem 0 0 0;
+        font-size: 0.7rem;
         font-weight: 300;
         opacity: 0.9;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width: 300px;
     }
     
     .header-date {
         color: #e8f4fd;
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         font-weight: 300;
         opacity: 0.8;
         text-align: right;
-        white-space: nowrap;
     }
     
-    /* Main content spacing - Reduced */
+    /* Main content spacing - Very Reduced */
     .main .block-container {
-        padding-top: 6rem !important;
+        padding-top: 4.5rem !important;
         padding-bottom: 2rem;
         max-width: 1200px;
     }
@@ -244,10 +235,10 @@ st.markdown("""
         background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
     }
     
-    /* Sidebar improvements - Compact */
+    /* Sidebar improvements - Very Compact */
     .sidebar .sidebar-content {
         background: linear-gradient(180deg, #f8f9fa, #e9ecef);
-        padding-top: 6rem;
+        padding-top: 4.5rem;
     }
     
     .sidebar .sidebar-content .block-container {
@@ -318,26 +309,24 @@ st.markdown("""
         .header-content {
             flex-direction: column;
             text-align: center;
-            gap: 0.5rem;
+            gap: 0.3rem;
         }
         
         .header-title {
-            font-size: 1.2rem;
-            max-width: 100%;
+            font-size: 1rem;
         }
         
         .header-subtitle {
-            font-size: 0.75rem;
-            max-width: 100%;
+            font-size: 0.65rem;
         }
         
         .main .block-container {
-            padding-top: 8rem !important;
+            padding-top: 6rem !important;
             padding-bottom: 8rem !important;
         }
         
         .sidebar .sidebar-content {
-            padding-top: 8rem;
+            padding-top: 6rem;
         }
         
         .metric-card {
@@ -464,9 +453,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Compact Carousel Component
+# Working Carousel Component
 def create_carousel():
-    """Create a compact carousel with integrated descriptions"""
+    """Create a working carousel that slides from right to left"""
     
     # Carousel data
     carousel_data = [
@@ -513,33 +502,39 @@ def create_carousel():
     # Get current slide
     current_slide = carousel_data[st.session_state.carousel_index]
     
-    # Create compact carousel display with integrated content
+    # Create carousel display
     st.markdown("### Agricultural Showcase")
     
-    # Create a single card with image and description integrated
-    st.markdown(f"""
-    <div style="background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
-                overflow: hidden; margin-bottom: 1rem; border: 1px solid #e9ecef;">
-        <div style="position: relative;">
-            <img src="{current_slide['image']}" style="width: 100%; height: 200px; object-fit: cover;" />
-            <div style="position: absolute; bottom: 0; left: 0; right: 0; 
-                        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8)); 
-                        color: white; padding: 1rem;">
-                <h4 style="margin: 0 0 0.5rem 0; font-size: 1.2rem; font-weight: 600;">
-                    {current_slide['title']}
-                </h4>
-                <p style="margin: 0 0 0.3rem 0; font-size: 0.9rem; opacity: 0.9;">
-                    {current_slide['description']}
-                </p>
-                <p style="margin: 0; font-size: 0.8rem; opacity: 0.8; font-style: italic;">
-                    {current_slide['caption']}
-                </p>
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    # Create columns for image and content side by side
+    col1, col2 = st.columns([2, 1])
     
-    # Compact navigation dots
+    with col1:
+        # Display image using Streamlit's image component
+        st.image(
+            current_slide["image"], 
+            use_container_width=True,
+            caption=current_slide["caption"]
+        )
+    
+    with col2:
+        # Display content in a styled card
+        st.markdown(f"""
+        <div style="padding: 1.5rem; background: linear-gradient(135deg, #f8f9fa, #e9ecef); 
+                    border-radius: 10px; height: 100%; border-left: 4px solid #4CAF50; 
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+            <h4 style="color: #1e3c72; margin-bottom: 1rem; font-weight: 600; font-size: 1.1rem;">
+                {current_slide['title']}
+            </h4>
+            <p style="color: #495057; line-height: 1.5; margin-bottom: 1rem; font-size: 0.9rem;">
+                {current_slide['description']}
+            </p>
+            <p style="color: #6c757d; font-style: italic; font-size: 0.8rem; margin: 0;">
+                {current_slide['caption']}
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    # Navigation dots
     cols = st.columns(len(carousel_data))
     for i, col in enumerate(cols):
         with col:
@@ -547,9 +542,9 @@ def create_carousel():
                 st.session_state.carousel_index = i
                 st.rerun()
     
-    # Auto-advance timer (this will cause a rerun every 5 seconds)
+    # Auto-advance timer (this will cause a rerun every 4 seconds)
     import time
-    time.sleep(5)
+    time.sleep(4)
     st.session_state.carousel_index += 1
     st.rerun()
     
