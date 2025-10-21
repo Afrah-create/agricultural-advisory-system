@@ -308,6 +308,154 @@ st.markdown("""
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
+    /* Carousel Styles */
+    .carousel-container {
+        position: relative;
+        max-width: 100%;
+        margin: 2rem auto;
+        overflow: hidden;
+        border-radius: 15px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    }
+    
+    .carousel-slides {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        height: 400px;
+    }
+    
+    .carousel-slide {
+        min-width: 100%;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: flex-end;
+    }
+    
+    .carousel-content {
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+        color: white;
+        padding: 2rem;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .carousel-title {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .carousel-description {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    
+    .carousel-caption {
+        font-size: 0.9rem;
+        opacity: 0.8;
+        font-style: italic;
+    }
+    
+    .carousel-dots {
+        display: flex;
+        justify-content: center;
+        padding: 1rem;
+        gap: 0.5rem;
+    }
+    
+    .carousel-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .carousel-dot.active {
+        background: #4CAF50;
+        transform: scale(1.2);
+    }
+    
+    .carousel-dot:hover {
+        background: rgba(255, 255, 255, 0.8);
+    }
+    
+    .carousel-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        padding: 1rem;
+        cursor: pointer;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+        z-index: 10;
+    }
+    
+    .carousel-nav:hover {
+        background: rgba(0, 0, 0, 0.7);
+    }
+    
+    .carousel-nav.prev {
+        left: 0;
+        border-radius: 0 10px 10px 0;
+    }
+    
+    .carousel-nav.next {
+        right: 0;
+        border-radius: 10px 0 0 10px;
+    }
+    
+    /* Responsive carousel */
+    @media (max-width: 768px) {
+        .carousel-slides {
+            height: 300px;
+        }
+        
+        .carousel-content {
+            padding: 1.5rem;
+        }
+        
+        .carousel-title {
+            font-size: 1.4rem;
+        }
+        
+        .carousel-description {
+            font-size: 0.9rem;
+        }
+        
+        .carousel-nav {
+            padding: 0.8rem;
+            font-size: 1.2rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .carousel-slides {
+            height: 250px;
+        }
+        
+        .carousel-content {
+            padding: 1rem;
+        }
+        
+        .carousel-title {
+            font-size: 1.2rem;
+        }
+        
+        .carousel-description {
+            font-size: 0.8rem;
+        }
+    }
+    
     /* Hide default Streamlit header */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
@@ -394,6 +542,110 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# Carousel Component
+def create_carousel():
+    """Create an interactive carousel with agricultural images"""
+    
+    # Carousel data with images, titles, descriptions, and captions
+    carousel_data = [
+        {
+            "image": "images/maize.jpeg",
+            "title": "Maize Cultivation",
+            "description": "High-yield maize varieties optimized for Ugandan soil conditions and climate patterns.",
+            "caption": "Essential staple crop for food security"
+        },
+        {
+            "image": "images/carrot.jpeg", 
+            "title": "Carrot Farming",
+            "description": "Nutrient-rich carrot cultivation techniques for improved soil health and crop rotation.",
+            "caption": "High-value crop for nutrition and income"
+        },
+        {
+            "image": "images/green-paper (1).jpeg",
+            "title": "Sustainable Agriculture",
+            "description": "Eco-friendly farming practices that promote soil conservation and environmental sustainability.",
+            "caption": "Protecting our environment for future generations"
+        },
+        {
+            "image": "images/red-paper (2).jpeg",
+            "title": "Crop Research",
+            "description": "Advanced agricultural research and development for improved crop varieties and farming methods.",
+            "caption": "Innovation driving agricultural progress"
+        },
+        {
+            "image": "images/red-paper (3).jpeg",
+            "title": "Farm Technology",
+            "description": "Modern farming technologies and tools to increase productivity and efficiency.",
+            "caption": "Technology empowering smallholder farmers"
+        }
+    ]
+    
+    # Generate carousel HTML
+    slides_html = ""
+    dots_html = ""
+    
+    for i, slide in enumerate(carousel_data):
+        slides_html += f"""
+        <div class="carousel-slide" style="background-image: url('{slide['image']}');">
+            <div class="carousel-content">
+                <h3 class="carousel-title">{slide['title']}</h3>
+                <p class="carousel-description">{slide['description']}</p>
+                <p class="carousel-caption">{slide['caption']}</p>
+            </div>
+        </div>
+        """
+        
+        active_class = "active" if i == 0 else ""
+        dots_html += f'<span class="carousel-dot {active_class}" onclick="showSlide({i})"></span>'
+    
+    carousel_html = f"""
+    <div class="carousel-container">
+        <div class="carousel-slides" id="carouselSlides">
+            {slides_html}
+        </div>
+        <button class="carousel-nav prev" onclick="changeSlide(-1)">‹</button>
+        <button class="carousel-nav next" onclick="changeSlide(1)">›</button>
+        <div class="carousel-dots">
+            {dots_html}
+        </div>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const totalSlides = {len(carousel_data)};
+        
+        function showSlide(n) {{
+            currentSlide = n;
+            updateCarousel();
+        }}
+        
+        function changeSlide(direction) {{
+            currentSlide += direction;
+            if (currentSlide >= totalSlides) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = totalSlides - 1;
+            updateCarousel();
+        }}
+        
+        function updateCarousel() {{
+            const slides = document.getElementById('carouselSlides');
+            slides.style.transform = `translateX(-${{currentSlide * 100}}%)`;
+            
+            // Update dots
+            const dots = document.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, index) => {{
+                dot.classList.toggle('active', index === currentSlide);
+            }});
+        }}
+        
+        // Auto-slide every 5 seconds
+        setInterval(() => {{
+            changeSlide(1);
+        }}, 5000);
+    </script>
+    """
+    
+    return carousel_html
+
 # Fixed Header with Dynamic Date
 from datetime import datetime
 current_date = datetime.now().strftime("%B %d, %Y")
@@ -413,6 +665,9 @@ st.markdown(f"""
     </div>
 </div>
 """, unsafe_allow_html=True)
+
+# Display Carousel
+st.markdown(create_carousel(), unsafe_allow_html=True)
 
 # Initialize the advisor with GitHub models
 @st.cache_resource
