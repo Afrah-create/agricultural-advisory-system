@@ -25,33 +25,60 @@ except ImportError:
 # Custom CSS for professional styling
 st.markdown("""
 <style>
-    .main-header {
+    /* Fixed Header */
+    .fixed-header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
         background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-        padding: 3rem 2rem;
-        border-radius: 12px;
-        text-align: center;
-        margin-bottom: 2rem;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 1.5rem 2rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
-    .main-header h1 {
+    .header-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .header-title {
         color: white;
         margin: 0;
-        font-size: 2.8rem;
+        font-size: 1.8rem;
         font-weight: 300;
         letter-spacing: 1px;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
     
-    .main-header p {
+    .header-subtitle {
         color: #e8f4fd;
-        margin: 1rem 0 0 0;
-        font-size: 1.2rem;
+        margin: 0.3rem 0 0 0;
+        font-size: 0.9rem;
         font-weight: 300;
         opacity: 0.9;
     }
     
+    .header-date {
+        color: #e8f4fd;
+        font-size: 0.85rem;
+        font-weight: 300;
+        opacity: 0.8;
+        text-align: right;
+    }
+    
+    /* Main content spacing */
+    .main .block-container {
+        padding-top: 8rem !important;
+        padding-bottom: 2rem;
+        max-width: 1200px;
+    }
+    
+    /* Card improvements */
     .metric-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         padding: 2rem 1.5rem;
@@ -62,11 +89,15 @@ st.markdown("""
         margin: 0.5rem;
         border: 1px solid rgba(255, 255, 255, 0.1);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
     .metric-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     }
     
     .metric-value {
@@ -83,6 +114,7 @@ st.markdown("""
         letter-spacing: 0.5px;
     }
     
+    /* Section headers */
     .section-header {
         background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
         color: white;
@@ -97,11 +129,12 @@ st.markdown("""
         letter-spacing: 0.5px;
     }
     
+    /* Improved cards */
     .recommendation-card {
         background: #ffffff;
         border-left: 4px solid #28a745;
         padding: 1.5rem;
-        margin: 0.8rem 0;
+        margin: 1rem 0;
         border-radius: 8px;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
         border: 1px solid #e9ecef;
@@ -116,7 +149,7 @@ st.markdown("""
         background: #fff8e1;
         border-left: 4px solid #ff9800;
         padding: 1.5rem;
-        margin: 0.8rem 0;
+        margin: 1rem 0;
         border-radius: 8px;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
         border: 1px solid #ffe0b2;
@@ -126,69 +159,13 @@ st.markdown("""
         background: #e8f5e8;
         border-left: 4px solid #4caf50;
         padding: 1.5rem;
-        margin: 0.8rem 0;
+        margin: 1rem 0;
         border-radius: 8px;
         box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
         border: 1px solid #c8e6c9;
     }
     
-    .sidebar .sidebar-content {
-        background: linear-gradient(180deg, #f8f9fa, #e9ecef);
-    }
-    
-    .stButton > button {
-        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        padding: 0.8rem 2rem;
-        font-weight: 500;
-        font-size: 1rem;
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        letter-spacing: 0.5px;
-    }
-    
-    .stButton > button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-        background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
-    }
-    
-    .footer {
-        background: linear-gradient(135deg, #343a40 0%, #495057 100%);
-        color: white;
-        padding: 2rem;
-        text-align: center;
-        border-radius: 12px;
-        margin-top: 3rem;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    .footer h3 {
-        font-weight: 300;
-        letter-spacing: 1px;
-        margin-bottom: 0.5rem;
-    }
-    
-    .crop-badge {
-        background: #e3f2fd;
-        color: #1976d2;
-        padding: 0.6rem 1.2rem;
-        border-radius: 25px;
-        display: inline-block;
-        margin: 0.3rem;
-        font-weight: 500;
-        border: 2px solid #bbdefb;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.2s ease;
-    }
-    
-    .crop-badge:hover {
-        transform: translateY(-1px);
-    }
-    
+    /* Risk cards */
     .risk-high {
         background: #ffebee;
         color: #c62828;
@@ -219,9 +196,100 @@ st.markdown("""
         margin: 0.5rem 0;
     }
     
-    /* Sidebar styling improvements */
+    /* Crop badges */
+    .crop-badge {
+        background: #e3f2fd;
+        color: #1976d2;
+        padding: 0.6rem 1.2rem;
+        border-radius: 25px;
+        display: inline-block;
+        margin: 0.3rem;
+        font-weight: 500;
+        border: 2px solid #bbdefb;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease;
+    }
+    
+    .crop-badge:hover {
+        transform: translateY(-1px);
+    }
+    
+    /* Button improvements */
+    .stButton > button {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.8rem 2rem;
+        font-weight: 500;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        letter-spacing: 0.5px;
+        width: 100%;
+    }
+    
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(135deg, #218838 0%, #1ea085 100%);
+    }
+    
+    /* Sidebar improvements */
+    .sidebar .sidebar-content {
+        background: linear-gradient(180deg, #f8f9fa, #e9ecef);
+        padding-top: 8rem;
+    }
+    
     .sidebar .sidebar-content .block-container {
         padding-top: 1rem;
+    }
+    
+    /* Footer */
+    .footer {
+        background: linear-gradient(135deg, #343a40 0%, #495057 100%);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+        border-radius: 12px;
+        margin-top: 3rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .footer h3 {
+        font-weight: 300;
+        letter-spacing: 1px;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .header-content {
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        .header-title {
+            font-size: 1.5rem;
+        }
+        
+        .main .block-container {
+            padding-top: 10rem !important;
+        }
+        
+        .sidebar .sidebar-content {
+            padding-top: 10rem;
+        }
+        
+        .metric-card {
+            margin: 0.3rem;
+            padding: 1.5rem 1rem;
+        }
+        
+        .metric-value {
+            font-size: 1.8rem;
+        }
     }
     
     /* Input styling */
@@ -240,11 +308,10 @@ st.markdown("""
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
-    /* Better spacing */
-    .main .block-container {
-        padding-top: 2rem;
-        padding-bottom: 2rem;
-    }
+    /* Hide default Streamlit header */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -327,16 +394,25 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Professional Header
-st.markdown("""
-<div class="main-header">
-    <h1>Agricultural Advisory System</h1>
-    <p>Evidence-backed crop recommendations and cropping plans for smallholder farmers in Uganda</p>
+# Fixed Header with Dynamic Date
+from datetime import datetime
+current_date = datetime.now().strftime("%B %d, %Y")
+current_time = datetime.now().strftime("%I:%M %p")
+
+st.markdown(f"""
+<div class="fixed-header">
+    <div class="header-content">
+        <div>
+            <h1 class="header-title">Agricultural Advisory System</h1>
+            <p class="header-subtitle">Evidence-backed crop recommendations for Uganda</p>
+        </div>
+        <div class="header-date">
+            <div>{current_date}</div>
+            <div>{current_time}</div>
+        </div>
+    </div>
 </div>
 """, unsafe_allow_html=True)
-
-# Add some spacing
-st.markdown("<br>", unsafe_allow_html=True)
 
 # Initialize the advisor with GitHub models
 @st.cache_resource
